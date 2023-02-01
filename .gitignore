@@ -1,0 +1,19 @@
+# IntelliJ
+.idea
+
+# macOS Finder
+.DS_Store
+
+# Python
+*.pyc
+__pycache__
+
+# Log files
+*.log
+
+# Virtual environments
+venv
+
+# Sensitive information
+.env
+
