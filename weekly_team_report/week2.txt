@@ -1,0 +1,25 @@
+Team name: The Librarians
+
+Team members: Nicholas Semaan, Dexter Estrada, Kyle Louderback, Kevin Ngo
+
+Current leader: Kyle Louderback
+
+Next leader: Kyle Louderback
+
+Milestone 1: pick tech stack - python, html, css, javascript, sqlite 
+(completed)
+Milestone 2: setup github repo (completed)
+Milestone 3: setup flask app framework (completed)
+Milestone 4: implement front end
+Milestone 5: setup api calls
+Milestone 6: save to database
+Milestone 7: use cases - save and share storybook with other parents
+Features: user accounts, sharing, integrating with twitter/instagram
+
+Job assignments:
+
+Nicholas - front end
+Kyle - DB and API
+Dexter - backend
+Kevin - requirements, use cases, user/sharing
+https://github.com/contactatfp/theLibrarians Links to an external site. 
