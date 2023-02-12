@@ -105,6 +105,126 @@ None
 
 Feedback:
 
+Focus on discoverability
+
+Create a rating system
+Implement a featured stories page that highlights the highest rated 
+stories
+Use a keyword tagging system
+ 
+
+GitHub: https://github.com/contactatfp/theLibrariansLinks to an 
+external site.
+
+Slides: 
+https://github.com/contactatfp/theLibrarians/blob/main/weekly_team_presentation/week3.pptxThe 
+Librarians
+
+Team Members:
+
+Kyle Louderback (Lead)
+
+Nicholas Semaan
+
+Kevin Ngo
+
+Dexter Estrada
+
+ 
+
+Technology:
+
+Flask Framework
+
+SQLite
+
+Bootstrap/HTML
+
+CSS
+
+JavaScript
+
+ 
+
+ 
+
+Milestones Completed:
+
+Pick tech stack
+
+Setup GitHub
+
+ 
+
+Job Assignments:
+
+To do over next two weeks:
+
+Front End – Nicolas:
+
+Start: home.html, about.html
+Use Bootstrap Framework
+DB/APIs – Kyle:
+
+Start: app.py
+Use Flask framework, sqlite
+Backend – Dexter:
+
+Map out models.py
+Use Flask framework
+Social Sharing Integrations – Kevin:
+
+Determine which libraries to use for social sharing
+ 
+
+Timeline:
+
+Front End –    
+
+            February 19:    home.html, about.html
+
+            March 5:          book.html, form.html
+
+                       
+
+DB -    
+
+            March 19:        create site.db
+
+ 
+
+APIs -  
+
+            March 26:        APIs
+
+ 
+
+Backend –
+
+            April 2:            Backend Optimization
+
+ 
+
+Integrations:
+
+            April 10:          Social Integrations
+
+ 
+
+Code Review:
+
+            April 15:          Final Code Review
+
+ 
+
+Items mis-presented by your partner team: 
+
+None
+
+ 
+
+Feedback:
+
 We could potentially utilize React as part of our tech stack. 
 
  
