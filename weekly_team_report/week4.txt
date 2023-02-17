@@ -1,0 +1,149 @@
+Team Members:
+
+Kyle Louderback (Lead)
+
+Nicholas Semaan
+
+Kevin Ngo
+
+Dexter Estrada
+
+
+
+
+Technology:
+
+Flask Framework
+
+SQLite
+
+Bootstrap/HTML
+
+CSS
+
+JavaScript
+
+
+
+
+
+
+
+Milestones Completed:
+
+Build ER Diagram
+
+Build app.py routes
+
+Research python Library for social sharing
+
+Build out index.html, about.html
+
+
+
+
+Job Assignments:
+
+To do over next two weeks:
+
+Front End – Nicolas:
+
+Continue: home.html, about.html
+Start on form.html, book.html, login.html, register.html
+Use Bootstrap Framework
+
+DB/APIs – Kyle:
+
+Continue: app.py
+Start on endpoints for API
+Initialize site.db (sqlite) based on models.py
+Use Flask framework, sqlite
+
+Backend – Dexter:
+
+Take ER Diagram and map it to models.py
+Use Flask framework
+
+Social Sharing Integrations – Kevin:
+
+Finalize libraries to use for social sharing
+
+
+
+
+Timeline:
+
+Front End –    
+
+            February 19:    home.html, about.html
+
+            March 5:          book.html, form.html
+
+                       
+
+DB -    
+
+            March 19:        create site.db
+
+
+
+
+APIs -  
+
+            March 26:        APIs
+
+
+
+
+Backend –
+
+            April 2:            Backend Optimization
+
+
+
+
+Integrations:
+
+            April 10:          Social Integrations
+
+
+
+
+Code Review:
+
+            April 15:          Final Code Review
+
+
+
+
+Blockers:
+
+None
+
+
+
+
+Feedback:
+
+
+No feedback for this week
+
+
+
+
+GitHub: 
+
+https://github.com/contactatfp/theLibrarians
+
+
+
+
+Slides:
+
+https://github.com/contactatfp/theLibrarians/tree/main/weekly_team_presentation
+
+
+
+
+
+
