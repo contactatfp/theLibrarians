@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="container-md">
+    <div class="py-5">
+        <form action="/save?book_id={{book.id}}" method="POST">
+            <button type="submit" class="btn btn-primary">Save Book</button>
+        </form>
+        <h1>Book</h1>
+        <img src="{{ image_url }}" style="align-content: center">
+        <h2>{{ post.title }}</h2>
+        <p>{{ book.content }}</p>
+    </div>
+    </div>
+{% endblock %}

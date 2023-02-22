@@ -1,29 +1,186 @@
 <!DOCTYPE html>
 <html lang=en>
 <head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width, initial-scale=1">
-<title>EMPTY</title>
-<link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous>
-<link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css integrity=sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp crossorigin=anonymous>
-<link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css integrity=sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN crossorigin=anonymous>
-
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+    <title>Ebooks</title>
+    <link rel=apple-touch-icon sizes=180x180 href="{{ url_for('static', filename='/images/icons/favicons/apple-touch-icon.png') }}">
+    <link rel=icon type=image/png sizes=32x32 href="{{ url_for('static', filename='/images/icons/favicons/favicon-32x32.png') }}">
+    <link rel=icon type=image/png sizes=16x16 href="{{ url_for('static', filename='/images/icons/favicons/favicon-16x16.png') }}">
+    <link rel=manifest href=../static/images/icons/favicons/site.webmanifest>
+    <meta name=msapplication-TileColor content=#ffffff>
+    <meta name=theme-color content=#ffffff>
+    <link href=../static/css/theme.min.css rel=stylesheet>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-174248960-1"></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config', 'UA-174248960-1');</script>
 </head>
 <body>
+<header class="navbar navbar-expand-lg align-items-center w-100 position-absolute z-index-10 navbar-light">
+    <div class="position-relative container-fluid">
+        <a href=#content class="skip-to-main sr-only-focusable" role=button>Skip to main content</a>
+        <a class="navbar-brand mr-auto" href=./index.html aria-label="Click to go back to Homepage">
+            {#               <svg width="77.656" height="59.678" viewBox="0 0 77.656 59.678" xmlns="http://www.w3.org/2000/svg"><g id="svgGroup" stroke-linecap="round" fill-rule="evenodd" font-size="9pt" stroke="#000000" stroke-width="0.25mm" fill="#000000" style="stroke:#000000;stroke-width:0.25mm;fill:#000000"><path d="M 73.862 32.813 L 77.656 59.063 L 73.281 59.063 L 70 35 L 70 59.063 L 65.625 59.063 L 65.625 6.563 L 70 6.563 L 70 30.625 L 73.281 6.563 L 77.656 6.563 L 73.862 32.813 Z M 9.844 0 L 9.844 3.281 L 4.375 3.281 L 4.375 26.25 L 8.75 26.25 L 8.75 29.531 L 4.375 29.531 L 4.375 55.781 L 9.844 55.781 L 9.844 59.063 L 0 59.063 L 0 0 L 9.844 0 Z M 26.25 31.719 L 26.25 53.594 A 9 9 0 0 1 26.177 54.784 Q 26.015 55.992 25.498 56.755 A 4.382 4.382 0 0 1 23.516 58.379 A 7.627 7.627 0 0 1 21.934 58.837 A 9.882 9.882 0 0 1 20.713 58.977 A 59.211 59.211 0 0 1 17.5 59.063 L 13.125 59.063 L 13.125 0 L 17.5 0 A 84.67 84.67 0 0 1 19.329 0.019 Q 20.189 0.037 20.957 0.074 A 50.323 50.323 0 0 1 21.174 0.085 Q 22.557 0.158 23.58 0.541 A 5.439 5.439 0 0 1 23.926 0.684 A 3.615 3.615 0 0 1 25.652 2.307 Q 26.25 3.418 26.25 5.469 L 26.25 24.063 A 5.26 5.26 0 0 1 26.162 25.055 Q 26.054 25.62 25.811 26.061 A 2.695 2.695 0 0 1 25.43 26.592 A 3.832 3.832 0 0 1 24.523 27.303 Q 23.869 27.681 22.969 27.925 A 6.733 6.733 0 0 1 24 28.244 Q 24.529 28.459 24.934 28.752 A 3.323 3.323 0 0 1 25.43 29.189 A 2.893 2.893 0 0 1 26.067 30.336 Q 26.201 30.782 26.237 31.319 A 6.022 6.022 0 0 1 26.25 31.719 Z M 43.75 11.484 L 43.75 54.141 A 6.544 6.544 0 0 1 43.649 55.322 A 4.73 4.73 0 0 1 43.22 56.619 A 5.003 5.003 0 0 1 41.802 58.345 Q 40.913 59.028 39.785 59.353 Q 38.657 59.678 37.461 59.678 A 8.868 8.868 0 0 1 34.966 59.319 A 7.178 7.178 0 0 1 33.274 58.588 A 6.496 6.496 0 0 1 32.778 58.259 Q 31.821 57.559 31.223 56.516 A 4.531 4.531 0 0 1 30.648 54.65 A 5.589 5.589 0 0 1 30.625 54.141 L 30.625 11.484 A 4.806 4.806 0 0 1 30.809 10.133 A 4.133 4.133 0 0 1 31.223 9.177 A 5.435 5.435 0 0 1 32.795 7.485 A 7.313 7.313 0 0 1 34.696 6.538 A 8.38 8.38 0 0 1 35 6.443 A 8.868 8.868 0 0 1 37.495 6.084 Q 38.691 6.084 39.819 6.409 A 6.099 6.099 0 0 1 41.454 7.143 A 5.645 5.645 0 0 1 41.819 7.4 Q 42.69 8.066 43.22 9.092 A 4.673 4.673 0 0 1 43.675 10.507 A 6.17 6.17 0 0 1 43.75 11.484 Z M 61.25 11.484 L 61.25 54.141 A 6.544 6.544 0 0 1 61.149 55.322 A 4.73 4.73 0 0 1 60.72 56.619 A 5.003 5.003 0 0 1 59.302 58.345 Q 58.413 59.028 57.285 59.353 Q 56.157 59.678 54.961 59.678 A 8.868 8.868 0 0 1 52.466 59.319 A 7.178 7.178 0 0 1 50.774 58.588 A 6.496 6.496 0 0 1 50.278 58.259 Q 49.321 57.559 48.723 56.516 A 4.531 4.531 0 0 1 48.148 54.65 A 5.589 5.589 0 0 1 48.125 54.141 L 48.125 11.484 A 4.806 4.806 0 0 1 48.309 10.133 A 4.133 4.133 0 0 1 48.723 9.177 A 5.435 5.435 0 0 1 50.295 7.485 A 7.313 7.313 0 0 1 52.196 6.538 A 8.38 8.38 0 0 1 52.5 6.443 A 8.868 8.868 0 0 1 54.995 6.084 Q 56.191 6.084 57.319 6.409 A 6.099 6.099 0 0 1 58.954 7.143 A 5.645 5.645 0 0 1 59.319 7.4 Q 60.19 8.066 60.72 9.092 A 4.673 4.673 0 0 1 61.175 10.507 A 6.17 6.17 0 0 1 61.25 11.484 Z M 39.375 54.141 L 39.375 11.484 A 3.765 3.765 0 0 0 39.332 10.891 Q 39.283 10.585 39.178 10.344 A 1.437 1.437 0 0 0 38.811 9.827 A 1.931 1.931 0 0 0 37.495 9.331 A 2.694 2.694 0 0 0 36.634 9.475 A 3.023 3.023 0 0 0 36.606 9.485 A 2.637 2.637 0 0 0 35.803 9.929 A 2.381 2.381 0 0 0 35.222 10.613 A 1.733 1.733 0 0 0 35 11.453 A 2.044 2.044 0 0 0 35 11.484 L 35 54.141 A 1.836 1.836 0 0 0 35.222 55.029 A 2.112 2.112 0 0 0 35.803 55.713 A 2.923 2.923 0 0 0 36.589 56.14 Q 37.017 56.294 37.461 56.294 A 1.995 1.995 0 0 0 38.794 55.798 Q 39.375 55.303 39.375 54.141 Z M 56.875 54.141 L 56.875 11.484 A 3.765 3.765 0 0 0 56.832 10.891 Q 56.783 10.585 56.678 10.344 A 1.437 1.437 0 0 0 56.311 9.827 A 1.931 1.931 0 0 0 54.995 9.331 A 2.694 2.694 0 0 0 54.134 9.475 A 3.023 3.023 0 0 0 54.106 9.485 A 2.637 2.637 0 0 0 53.303 9.929 A 2.381 2.381 0 0 0 52.722 10.613 A 1.733 1.733 0 0 0 52.5 11.453 A 2.044 2.044 0 0 0 52.5 11.484 L 52.5 54.141 A 1.836 1.836 0 0 0 52.722 55.029 A 2.112 2.112 0 0 0 53.303 55.713 A 2.923 2.923 0 0 0 54.089 56.14 Q 54.517 56.294 54.961 56.294 A 1.995 1.995 0 0 0 56.294 55.798 Q 56.875 55.303 56.875 54.141 Z M 21.875 53.594 L 21.875 31.719 Q 21.875 31.309 21.858 30.916 A 2.979 2.979 0 0 0 21.82 30.544 A 2.223 2.223 0 0 0 21.738 30.215 A 1.18 1.18 0 0 0 21.593 29.918 A 1.003 1.003 0 0 0 21.414 29.719 Q 21.231 29.565 20.922 29.537 A 1.583 1.583 0 0 0 20.781 29.531 L 17.5 29.531 L 17.5 55.781 Q 18.269 55.781 18.884 55.768 A 35.964 35.964 0 0 0 19.568 55.747 A 6.25 6.25 0 0 0 20.105 55.703 Q 20.358 55.671 20.572 55.618 A 2.669 2.669 0 0 0 20.918 55.508 A 1.522 1.522 0 0 0 21.321 55.274 A 1.261 1.261 0 0 0 21.653 54.858 Q 21.866 54.433 21.875 53.662 A 5.882 5.882 0 0 0 21.875 53.594 Z M 17.5 3.281 L 17.5 26.25 L 20.781 26.25 A 1.438 1.438 0 0 0 21.025 26.231 Q 21.263 26.19 21.414 26.062 Q 21.636 25.874 21.738 25.566 A 2.252 2.252 0 0 0 21.825 25.204 A 3.022 3.022 0 0 0 21.858 24.866 Q 21.875 24.473 21.875 24.063 L 21.875 5.469 A 4.886 4.886 0 0 0 21.854 5.004 Q 21.81 4.538 21.668 4.236 A 1.38 1.38 0 0 0 21.653 4.204 A 1.297 1.297 0 0 0 21.071 3.625 A 1.716 1.716 0 0 0 20.918 3.555 A 2.788 2.788 0 0 0 20.488 3.425 Q 20.265 3.375 20.002 3.347 A 6.516 6.516 0 0 0 19.568 3.315 Q 18.992 3.292 18.231 3.285 A 75.926 75.926 0 0 0 17.5 3.281 Z" vector-effect="non-scaling-stroke"/></g></svg>#}
+        </a>
+        <button class="navbar-toggler ml-auto" type=button data-toggle=collapse data-target=#navbarCollapse aria-expanded=false aria-label="Toggle navigation"><span class=navbar-toggler-icon></span></button>
+        <div class="collapse navbar-collapse" id=navbarCollapse>
+            <ul class="navbar-nav ml-auto">
+                <li class=nav-item><a class="nav-link active" href="{{ url_for('home') }}">Overview</a></li>
+                <li class=nav-item><a class="nav-link active" href="{{ url_for('about') }}">About</a></li>
+                <li class=nav-item><a class="nav-link active" href="{{ url_for('login') }}">Login</a></li>
+                <li class=nav-item><a class="nav-link active" href="{{ url_for('register') }}">Register</a></li>
+
+            </ul>
+            <a class="btn btn-sm btn-secondary text-uppercase mt-3 mt-lg-0 ml-lg-4 d-block d-lg-inline-block" href='#' rel=noopener>Start Now</a>
+        </div>
+    </div>
+</header>
+
+<div class="container-md">
+<div class="py-3">
+<br><br>
+{% with messages = get_flashed_messages(with_categories=true)  %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="py-5">
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+</div>
+</div>
+
+
 
 {% block content %}
 {% endblock %}
 
-<div class=container>
-<div class=row>
-<div class=col-md-12>
-</div>
-</div>
-</div>
-<script src=https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js></script>
 
-
-
+<footer class="bg-primary text-white small">
+    <div class="pt-6 pb-4 pt-lg-7 pb-lg-6">
+        <div class=container>
+            <div class="row justify-content-md-between">
+                <div class="col-md-5 col-lg-4 d-flex flex-column justify-content-between">
+                    {#                     <svg width="77.656" height="59.678" viewBox="0 0 77.656 59.678" xmlns="http://www.w3.org/2000/svg"><g id="svgGroup" stroke-linecap="round" fill-rule="evenodd" font-size="9pt" stroke="#000000" stroke-width="0.25mm" fill="#ffffff" style="stroke:#FFFFFF;stroke-width:0.25mm;fill:#ffffff"><path d="M 73.862 32.813 L 77.656 59.063 L 73.281 59.063 L 70 35 L 70 59.063 L 65.625 59.063 L 65.625 6.563 L 70 6.563 L 70 30.625 L 73.281 6.563 L 77.656 6.563 L 73.862 32.813 Z M 9.844 0 L 9.844 3.281 L 4.375 3.281 L 4.375 26.25 L 8.75 26.25 L 8.75 29.531 L 4.375 29.531 L 4.375 55.781 L 9.844 55.781 L 9.844 59.063 L 0 59.063 L 0 0 L 9.844 0 Z M 26.25 31.719 L 26.25 53.594 A 9 9 0 0 1 26.177 54.784 Q 26.015 55.992 25.498 56.755 A 4.382 4.382 0 0 1 23.516 58.379 A 7.627 7.627 0 0 1 21.934 58.837 A 9.882 9.882 0 0 1 20.713 58.977 A 59.211 59.211 0 0 1 17.5 59.063 L 13.125 59.063 L 13.125 0 L 17.5 0 A 84.67 84.67 0 0 1 19.329 0.019 Q 20.189 0.037 20.957 0.074 A 50.323 50.323 0 0 1 21.174 0.085 Q 22.557 0.158 23.58 0.541 A 5.439 5.439 0 0 1 23.926 0.684 A 3.615 3.615 0 0 1 25.652 2.307 Q 26.25 3.418 26.25 5.469 L 26.25 24.063 A 5.26 5.26 0 0 1 26.162 25.055 Q 26.054 25.62 25.811 26.061 A 2.695 2.695 0 0 1 25.43 26.592 A 3.832 3.832 0 0 1 24.523 27.303 Q 23.869 27.681 22.969 27.925 A 6.733 6.733 0 0 1 24 28.244 Q 24.529 28.459 24.934 28.752 A 3.323 3.323 0 0 1 25.43 29.189 A 2.893 2.893 0 0 1 26.067 30.336 Q 26.201 30.782 26.237 31.319 A 6.022 6.022 0 0 1 26.25 31.719 Z M 43.75 11.484 L 43.75 54.141 A 6.544 6.544 0 0 1 43.649 55.322 A 4.73 4.73 0 0 1 43.22 56.619 A 5.003 5.003 0 0 1 41.802 58.345 Q 40.913 59.028 39.785 59.353 Q 38.657 59.678 37.461 59.678 A 8.868 8.868 0 0 1 34.966 59.319 A 7.178 7.178 0 0 1 33.274 58.588 A 6.496 6.496 0 0 1 32.778 58.259 Q 31.821 57.559 31.223 56.516 A 4.531 4.531 0 0 1 30.648 54.65 A 5.589 5.589 0 0 1 30.625 54.141 L 30.625 11.484 A 4.806 4.806 0 0 1 30.809 10.133 A 4.133 4.133 0 0 1 31.223 9.177 A 5.435 5.435 0 0 1 32.795 7.485 A 7.313 7.313 0 0 1 34.696 6.538 A 8.38 8.38 0 0 1 35 6.443 A 8.868 8.868 0 0 1 37.495 6.084 Q 38.691 6.084 39.819 6.409 A 6.099 6.099 0 0 1 41.454 7.143 A 5.645 5.645 0 0 1 41.819 7.4 Q 42.69 8.066 43.22 9.092 A 4.673 4.673 0 0 1 43.675 10.507 A 6.17 6.17 0 0 1 43.75 11.484 Z M 61.25 11.484 L 61.25 54.141 A 6.544 6.544 0 0 1 61.149 55.322 A 4.73 4.73 0 0 1 60.72 56.619 A 5.003 5.003 0 0 1 59.302 58.345 Q 58.413 59.028 57.285 59.353 Q 56.157 59.678 54.961 59.678 A 8.868 8.868 0 0 1 52.466 59.319 A 7.178 7.178 0 0 1 50.774 58.588 A 6.496 6.496 0 0 1 50.278 58.259 Q 49.321 57.559 48.723 56.516 A 4.531 4.531 0 0 1 48.148 54.65 A 5.589 5.589 0 0 1 48.125 54.141 L 48.125 11.484 A 4.806 4.806 0 0 1 48.309 10.133 A 4.133 4.133 0 0 1 48.723 9.177 A 5.435 5.435 0 0 1 50.295 7.485 A 7.313 7.313 0 0 1 52.196 6.538 A 8.38 8.38 0 0 1 52.5 6.443 A 8.868 8.868 0 0 1 54.995 6.084 Q 56.191 6.084 57.319 6.409 A 6.099 6.099 0 0 1 58.954 7.143 A 5.645 5.645 0 0 1 59.319 7.4 Q 60.19 8.066 60.72 9.092 A 4.673 4.673 0 0 1 61.175 10.507 A 6.17 6.17 0 0 1 61.25 11.484 Z M 39.375 54.141 L 39.375 11.484 A 3.765 3.765 0 0 0 39.332 10.891 Q 39.283 10.585 39.178 10.344 A 1.437 1.437 0 0 0 38.811 9.827 A 1.931 1.931 0 0 0 37.495 9.331 A 2.694 2.694 0 0 0 36.634 9.475 A 3.023 3.023 0 0 0 36.606 9.485 A 2.637 2.637 0 0 0 35.803 9.929 A 2.381 2.381 0 0 0 35.222 10.613 A 1.733 1.733 0 0 0 35 11.453 A 2.044 2.044 0 0 0 35 11.484 L 35 54.141 A 1.836 1.836 0 0 0 35.222 55.029 A 2.112 2.112 0 0 0 35.803 55.713 A 2.923 2.923 0 0 0 36.589 56.14 Q 37.017 56.294 37.461 56.294 A 1.995 1.995 0 0 0 38.794 55.798 Q 39.375 55.303 39.375 54.141 Z M 56.875 54.141 L 56.875 11.484 A 3.765 3.765 0 0 0 56.832 10.891 Q 56.783 10.585 56.678 10.344 A 1.437 1.437 0 0 0 56.311 9.827 A 1.931 1.931 0 0 0 54.995 9.331 A 2.694 2.694 0 0 0 54.134 9.475 A 3.023 3.023 0 0 0 54.106 9.485 A 2.637 2.637 0 0 0 53.303 9.929 A 2.381 2.381 0 0 0 52.722 10.613 A 1.733 1.733 0 0 0 52.5 11.453 A 2.044 2.044 0 0 0 52.5 11.484 L 52.5 54.141 A 1.836 1.836 0 0 0 52.722 55.029 A 2.112 2.112 0 0 0 53.303 55.713 A 2.923 2.923 0 0 0 54.089 56.14 Q 54.517 56.294 54.961 56.294 A 1.995 1.995 0 0 0 56.294 55.798 Q 56.875 55.303 56.875 54.141 Z M 21.875 53.594 L 21.875 31.719 Q 21.875 31.309 21.858 30.916 A 2.979 2.979 0 0 0 21.82 30.544 A 2.223 2.223 0 0 0 21.738 30.215 A 1.18 1.18 0 0 0 21.593 29.918 A 1.003 1.003 0 0 0 21.414 29.719 Q 21.231 29.565 20.922 29.537 A 1.583 1.583 0 0 0 20.781 29.531 L 17.5 29.531 L 17.5 55.781 Q 18.269 55.781 18.884 55.768 A 35.964 35.964 0 0 0 19.568 55.747 A 6.25 6.25 0 0 0 20.105 55.703 Q 20.358 55.671 20.572 55.618 A 2.669 2.669 0 0 0 20.918 55.508 A 1.522 1.522 0 0 0 21.321 55.274 A 1.261 1.261 0 0 0 21.653 54.858 Q 21.866 54.433 21.875 53.662 A 5.882 5.882 0 0 0 21.875 53.594 Z M 17.5 3.281 L 17.5 26.25 L 20.781 26.25 A 1.438 1.438 0 0 0 21.025 26.231 Q 21.263 26.19 21.414 26.062 Q 21.636 25.874 21.738 25.566 A 2.252 2.252 0 0 0 21.825 25.204 A 3.022 3.022 0 0 0 21.858 24.866 Q 21.875 24.473 21.875 24.063 L 21.875 5.469 A 4.886 4.886 0 0 0 21.854 5.004 Q 21.81 4.538 21.668 4.236 A 1.38 1.38 0 0 0 21.653 4.204 A 1.297 1.297 0 0 0 21.071 3.625 A 1.716 1.716 0 0 0 20.918 3.555 A 2.788 2.788 0 0 0 20.488 3.425 Q 20.265 3.375 20.002 3.347 A 6.516 6.516 0 0 0 19.568 3.315 Q 18.992 3.292 18.231 3.285 A 75.926 75.926 0 0 0 17.5 3.281 Z" vector-effect="non-scaling-stroke"/></g></svg>#}
+                    <div class="mt-4 mb-3 mt-lg-5 pt-lg-2 mx-auto mx-md-0">
+                        <a href=# class="text-reset text-decoration-none">
+                            {#                           <svg width=15 height=15 class=mx-1 xmlns=http://www.w3.org/2000/svg viewBox="0 0 24 24">#}
+                            {#                              <title>social-media-facebook</title>#}
+                            {#                              <path d=M18.14,7.17A.5.5,0,0,0,17.77,7H14V5.59c0-.28.06-.6.51-.6h3a.44.44,0,0,0,.35-.15A.5.5,0,0,0,18,4.5V.5a.5.5,0,0,0-.5-.5H13.17C8.37,0,8,4.1,8,5.35V7H5.5a.5.5,0,0,0-.5.5v4a.5.5,0,0,0,.5.5H8V23.5a.5.5,0,0,0,.5.5h5a.5.5,0,0,0,.5-.5V12h3.35a.5.5,0,0,0,.5-.45l.42-4A.5.5,0,0,0,18.14,7.17Z />#}
+                            {#                           </svg>#}
+                        </a>
+                        <a href=# class="text-white text-decoration-none">
+                            {#                           <svg width=15 height=15 class=mx-1 xmlns=http://www.w3.org/2000/svg viewBox="0 0 24 24">#}
+                            {#                              <title>social-media-twitter</title>#}
+                            {#                              <path d=M23.32,6.44a.5.5,0,0,0-.2-.87l-.79-.2A.5.5,0,0,1,22,4.67l.44-.89a.5.5,0,0,0-.58-.7l-2,.56a.5.5,0,0,1-.44-.08,5,5,0,0,0-3-1,5,5,0,0,0-5,5v.36a.25.25,0,0,1-.22.25c-2.81.33-5.5-1.1-8.4-4.44a.51.51,0,0,0-.51-.15A.5.5,0,0,0,2,4a7.58,7.58,0,0,0,.46,4.92.25.25,0,0,1-.26.36L1.08,9.06a.5.5,0,0,0-.57.59,5.15,5.15,0,0,0,2.37,3.78.25.25,0,0,1,0,.45l-.53.21a.5.5,0,0,0-.26.69,4.36,4.36,0,0,0,3.2,2.48.25.25,0,0,1,0,.47A10.94,10.94,0,0,1,1,18.56a.5.5,0,0,0-.2,1,20.06,20.06,0,0,0,8.14,1.93,12.58,12.58,0,0,0,7-2A12.5,12.5,0,0,0,21.5,9.06V8.19a.5.5,0,0,1,.18-.38Z />#}
+                            {#                           </svg>#}
+                        </a>
+                        <a href=# class="text-white text-decoration-none">
+                            {#                           <svg width=15 height=15 class=mx-1 xmlns=http://www.w3.org/2000/svg viewBox="0 0 24 24">#}
+                            {#                              <title>professional-network-linkedin</title>#}
+                            {#                              <rect x=2 y=8.5 width=5 height=14 rx=0.5 ry=0.5 />#}
+                            {#                              <ellipse cx=4.48 cy=4 rx=2.48 ry=2.5 />#}
+                            {#                              <path d=M18.5,22.5h3A.5.5,0,0,0,22,22V13.6C22,9.83,19.87,8,16.89,8a4.21,4.21,0,0,0-3.17,1.27A.41.41,0,0,1,13,9a.5.5,0,0,0-.5-.5h-3A.5.5,0,0,0,9,9V22a.5.5,0,0,0,.5.5h3A.5.5,0,0,0,13,22V14.5a2.5,2.5,0,0,1,5,0V22A.5.5,0,0,0,18.5,22.5Z />#}
+                            {#                           </svg>#}
+                        </a>
+                        <a href=# class="text-white text-decoration-none">
+                            {#                           <svg width=15 height=15 class=mx-1 xmlns=http://www.w3.org/2000/svg viewBox="0 0 24 24">#}
+                            {#                              <title>social-pinterest</title>#}
+                            {#                              <path d=M7.13,22.36a.4.4,0,0,0,.29.33h.11a.45.45,0,0,0,.36-.2,12.8,12.8,0,0,0,2.19-4c.09-.33.39-1.52.61-2.37a.25.25,0,0,1,.4-.13,4.12,4.12,0,0,0,2.53.88c3.9,0,6.73-3.57,6.73-8.48,0-3.51-2.94-7.13-7.86-7.13C7,1.29,3.65,5.23,3.65,9c0,2.35,1,4.15,2.62,4.82a.66.66,0,0,0,.94-.47l.24-1a.82.82,0,0,0-.22-.9,3.25,3.25,0,0,1-.73-2.2,5.47,5.47,0,0,1,5.67-5.5c2.93,0,4.75,1.67,4.75,4.36,0,3.5-1.53,6.14-3.56,6.14A1.73,1.73,0,0,1,12,13.7a1.58,1.58,0,0,1-.28-1.38c.13-.54.3-1.1.47-1.65A10.19,10.19,0,0,0,12.77,8,1.84,1.84,0,0,0,10.89,6C9.45,6,8.33,7.43,8.33,9.31a5.13,5.13,0,0,0,.32,1.79.5.5,0,0,1,0,.29L7.17,17.7A13.38,13.38,0,0,0,7.13,22.36Z />#}
+                            {#                           </svg>#}
+                        </a>
+                        <a href=# class="text-white text-decoration-none">
+                            {#                           <svg width=15 height=15 class=mx-1 xmlns=http://www.w3.org/2000/svg viewBox="0 0 24 24">#}
+                            {#                              <title>designer-community-dribbble</title>#}
+                            {#                              <path d=M24,12A12,12,0,0,0,6.28,1.45l-.05,0A12.09,12.09,0,0,0,0,12a11.94,11.94,0,0,0,2.71,7.58l0,0h0A12,12,0,0,0,24,12ZM20.07,6.12A9.93,9.93,0,0,1,22,11.65c-.88-.09-1.82-.14-2.62-.14a24.12,24.12,0,0,0-4.17.38c-.27-.69-.56-1.37-.89-2A23.88,23.88,0,0,0,20.07,6.12ZM18.74,4.64a21.88,21.88,0,0,1-5.42,3.47A23.94,23.94,0,0,0,8.65,2.59a9.9,9.9,0,0,1,10.09,2ZM6.68,3.55a22,22,0,0,1,4.75,5.3A22,22,0,0,1,4.35,10c-.71,0-1.42,0-2.13-.11A10,10,0,0,1,6.68,3.55ZM2,11.92c.78.08,1.56.13,2.34.13a23.93,23.93,0,0,0,8.09-1.42q.43.84.78,1.71a23.78,23.78,0,0,0-9.59,5.11A9.9,9.9,0,0,1,2,11.92ZM4.87,19a21.79,21.79,0,0,1,9-4.78,22.1,22.1,0,0,1,.94,6.39c0,.33,0,.66,0,1A9.94,9.94,0,0,1,4.87,19Zm12,1.76s0-.1,0-.15a24.13,24.13,0,0,0-1-6.8,22.1,22.1,0,0,1,3.5-.3c.77,0,1.66.05,2.49.14A10,10,0,0,1,16.82,20.76Z />#}
+                            {#                           </svg>#}
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-7 col-lg-6 mt-5 mt-md-0">
+                    <div class=row>
+                        <div class="col-6 col-md-4 mb-4 mb-md-0">
+                            <h3 class="h6 text-uppercase mb-3">Services</h3>
+                            <ul class=list-unstyled>
+                                <li class=mb-1><a href=# class=text-reset>UI Kit</a></li>
+                                <li class=mb-1><a href=# class=text-reset>Documentation</a></li>
+                                <li class=mb-1><a href=# class=text-reset>Page builder</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-6 col-md-4 mb-4 mb-md-0">
+                            <h3 class="h6 text-uppercase mb-3">Company</h3>
+                            <ul class=list-unstyled>
+                                <li class=mb-1><a href=# class=text-reset>About Us</a></li>
+                                <li class=mb-1><a href=# class=text-reset>Contact Us</a></li>
+                                <li class=mb-1><a href=# class=text-reset>Careers</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <h3 class="h6 text-uppercase mb-3">Help</h3>
+                            <ul class=list-unstyled>
+                                <li class=mb-1><a href=# class=text-reset>FAQs</a></li>
+                                <li class=mb-1><a href=# class=text-reset>Pricing</a></li>
+                                <li class=mb-1><a href=# class=text-reset>Terms</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="border-top border-gray py-3">
+        <div class=container>
+            <div class="row justify-content-between small">
+                <div class=col-auto><a href=# class=text-reset>Privacy Policy</a> | <a href=# class=text-reset>Cookie Policy</a></div>
+                <div class=col-auto>
+                    <a data-scroll href=# class="d-inline-block text-reset" title="Up to the top">
+                        {#                         <svg width=20 height=20 xmlns=http://www.w3.org/2000/svg viewBox="0 0 24 24"#}
+                        {#                              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"#}
+                        {#                              xsi:schemaLocation="http://www.w3.org/2000/svg ">#}
+                        {#                             <title>arrow-button-up-1</title>#}
+                        {#                             <path d=M12,10.416a2.643,2.643,0,0,1,1.875.775l9.541,9.541a1.768,1.768,0,0,1-2.5,2.5l-8.739-8.739a.25.25,0,0,0-.354,0L3.084,23.232a1.768,1.768,0,0,1-2.5-2.5l9.541-9.541A2.643,2.643,0,0,1,12,10.416Z/><path d=M12,.25a2.643,2.643,0,0,1,1.875.775l9.541,9.541a1.768,1.768,0,0,1-2.5,2.5L12.177,4.327a.25.25,0,0,0-.354,0L3.084,13.066a1.768,1.768,0,0,1-2.5-2.5l9.541-9.541A2.643,2.643,0,0,1,12,.25Z/></path>#}
+                        {#                         </svg>#}
+                    </a>
+                </div>
+                <div class=col-auto><span>&copy; EBook, 2023</span></div>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class=pswp tabindex=-1 role=dialog aria-hidden=true>
+    <div class=pswp__bg></div>
+    <div class=pswp__scroll-wrap>
+        <div class=pswp__container>
+            <div class=pswp__item></div>
+            <div class=pswp__item></div>
+            <div class=pswp__item></div>
+        </div>
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class=pswp__top-bar>
+                <div class=pswp__counter></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"><span class=sr-only>Close</span></button> <button class="pswp__button pswp__button--share"><span class=sr-only>Share</span></button> <button class="pswp__button pswp__button--fs"><span class=sr-only>Toggle fullscreen</span></button> <button class="pswp__button pswp__button--zoom"><span class=sr-only>Zoom in/out</span></button> <button class="pswp__button pswp__button--playpause"><span class=sr-only>Play/pause</span></button>
+                <div class=pswp__preloader>
+                    <div class=pswp__preloader__icn>
+                        <div class=pswp__preloader__cut>
+                            <div class=pswp__preloader__donut></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class=pswp__share-tooltip></div>
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"><span class=sr-only>Previous</span></button> <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"><span class=sr-only>Next</span></button>
+            <div class=pswp__caption>
+                <div class=pswp__caption__center></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src=../static/js/theme.core.min.js></script><script src=../static/js/theme.min.js></script>
 </body>
 </html>
-
