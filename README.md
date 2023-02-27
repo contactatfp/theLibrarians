@@ -1,10 +1,10 @@
 # Quick Story Documentation
 
 ## Meet The Librarians
-Nicolas Semaan - Front End
-Kyle Louderback - Database/APIs
-Dexter Estrada - Backend
-Kevin Ngo - Integrations
+- Nicolas Semaan - Front End
+- Kyle Louderback - Database/APIs
+- Dexter Estrada - Backend
+- Kevin Ngo - Integrations
 
 ## Project URL
 https://github.com/contactatfp/theLibrarians.git
