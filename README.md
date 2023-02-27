@@ -1,4 +1,13 @@
-# The Librarians Documentation
+# Quick Story Documentation
+
+## Meet The Librarians
+Nicolas Semaan - Front End
+Kyle Louderback - Database/APIs
+Dexter Estrada - Backend
+Kevin Ngo - Integrations
+
+## Project URL
+https://github.com/contactatfp/theLibrarians.git
 
 ## Introduction
 This Flask application is designed for generating children's books based on user input. Users can create an account, log in, and submit a form with various details about the characters and settings they want in their book. The application then generates a story and artwork for the book, which the user can preview, download as a PDF, and share on social media.
@@ -46,6 +55,13 @@ This Flask application is designed for generating children's books based on user
 5. Book: The Book page, where users can input details about the characters and settings they want in their book.
 6. Form: The form page, which displays the form that users can fill out to input details about the characters and settings they want in their book.
 7. Preview: The Preview page, which displays the generated book and allows users to make changes if necessary.
+
+## Technology Tools used
+- Flask Framework
+- SQLite
+- Bootstrap/HTML
+- CSS
+- JavaScript
 
 ## UML Diagram
 There is no UML diagram yet.
