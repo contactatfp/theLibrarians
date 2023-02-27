@@ -1,0 +1,42 @@
+The Librarians:
+-Dexter Estrada (Lead)
+-Kyle Louderback
+-Nicholas Semaan
+-Kevin Ngo
+
+Project:
+Quick Story
+
+GitHub Repository:
+https://github.com/contactatfp/theLibrarians.git
+
+Job Assignments:
+Kyle:
+-Setup app.py, basic Flask app structure
+-Setup routes for “/” and “/about”, “/form”, “/register”, “/login”, “/initdb”, “/book”
+-Initialized DB
+
+Kevin:
+-Researched library for social sharing that works with Flask Framework
+-Build form.py
+
+Dexter:
+-Started building out and mapping models.py 
+-Setup Virtual Environment
+-Build models.py
+
+Nicolas:
+-Started building index.html, about.html, layout.html, form.html, register.html, login.html
+
+Milestones:
+M2: Registration, Login/Logout, About, and Form features - March 5
+M3: Book Generation feature - March 19
+M4: Preview and Download features - March 30
+M5: Share feature - April 10
+
+Technology:
+-Flask Framework
+-SQLite
+-Bootstrap/HTML
+-CSS
+-JavaScript
