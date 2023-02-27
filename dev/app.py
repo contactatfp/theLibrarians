@@ -118,6 +118,9 @@ def initdb():
     db.create_all()
     return 'Initialized the database'
 
+@app.route('/all')
+def all():
+    return render_template('all.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
