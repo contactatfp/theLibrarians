@@ -21,3 +21,8 @@ Running the Project
 2. In the same directory, start the database server by running the command 'flask run'
 
 3. You are now ready to use the Flask app. In your web browser, navigate to http://localhost:5000 to view the home page.
+
+--------------------------------------------------------------------------------------------------------
+Verifying the progress
+
+1. Click on commits to verify files that have been changed
