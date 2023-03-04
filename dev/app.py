@@ -64,6 +64,7 @@ class Book(db.Model):
 def home():  # put application's code here
     return render_template('index.html')
 
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
@@ -101,9 +102,44 @@ def about():  # put application's code here
 def book():  # put application's code here
     return render_template('book.html')
 
+
+def get_image(prompt):
+    response = openai.Image.create(
+        prompt=prompt,
+        n=1,
+        size="512x512",
+    )
+    image_url = response['data'][0]['url']
+    return image_url
+
+
 @app.route('/form', methods=['GET', 'POST'])
 def form():
+    login_required(current_user)
+    if not current_user.is_authenticated:
+        return redirect(url_for('home'))
     form = PostForm()
+    user = current_user
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, age=form.age.data, author=user,
+                    child_name=form.child_name.data)
+
+        openai.api_key = os.getenv("OPEN_API_KEY")
+        book = form.content.data
+        response = openai.Completion.create(
+            model="text-davinci-003",
+            prompt=book,
+            temperature=0.6,
+            max_tokens=300,
+        )
+        image_url = get_image(book)
+        userBook = Book(content=response.choices[0].text, author=user)
+        db.session.add(post)
+        db.session.add(userBook)
+        db.session.commit()
+        flash('Your book is being created!', 'success')
+        # return redirect(url_for('book', book=userBook.content))
+        return render_template('book.html', book=userBook, image_url=image_url, post=post)
     return render_template('form.html', title='New Post', form=form)
 
 
@@ -123,4 +159,5 @@ def all():
     return render_template('all.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
+
