@@ -6,6 +6,7 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from flask_bcrypt import Bcrypt
 from fpdf import FPDF
 from werkzeug.utils import send_file
+import json
 
 from forms import RegistrationForm, LoginForm, PostForm
 
@@ -17,7 +18,12 @@ bcrypt = Bcrypt(app)
 
 login_manager = LoginManager(app)
 app.app_context().push()
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# openai.api_key = os.getenv("OPENAI_API_KEY")
+
+with open('config.json') as f:
+    config = json.load(f)
+
+openai.api_key = config['api_secret']
 
 
 @login_manager.user_loader
@@ -124,7 +130,7 @@ def form():
         post = Post(title=form.title.data, content=form.content.data, age=form.age.data, author=user,
                     child_name=form.child_name.data)
 
-        openai.api_key = os.getenv("OPEN_API_KEY")
+        # openai.api_key = os.getenv("OPEN_API_KEY")
         book = form.content.data
         response = openai.Completion.create(
             model="text-davinci-003",
