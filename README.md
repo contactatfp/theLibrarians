@@ -1,4 +1,4 @@
-# Quick Story Documentation
+# Quick Story
 
 ## Meet The Librarians
 - Nicolas Semaan - Front End
@@ -9,8 +9,15 @@
 ## Project URL
 https://github.com/contactatfp/theLibrarians.git
 
+## Technology Tools used
+- Flask Framework
+- SQLite
+- Bootstrap/HTML
+- CSS
+- JavaScript
+
 ## Introduction
-This Flask application is designed for generating children's books based on user input. Users can create an account, log in, and submit a form with various details about the characters and settings they want in their book. The application then generates a story and artwork for the book, which the user can preview, download as a PDF, and share on social media.
+Quick Story is a website targeted toward parents of young children up to 11 years old. It is designed for generating children's books based on user input. Users can create an account, log in, and submit a form with various details about the characters and settings they want in their book. The application then generates a story and artwork for the book, which the user can preview, download as a PDF, and share on social media.
 
 ## Features
 1. Registration: Allows users to create an account by providing their username, email, and password.
@@ -56,16 +63,6 @@ This Flask application is designed for generating children's books based on user
 6. Form: The form page, which displays the form that users can fill out to input details about the characters and settings they want in their book.
 7. Preview: The Preview page, which displays the generated book and allows users to make changes if necessary.
 
-## Technology Tools used
-- Flask Framework
-- SQLite
-- Bootstrap/HTML
-- CSS
-- JavaScript
-
-## UML Diagram
-There is no UML diagram yet.
-
 ## Testing Plans
 1. Registration: Verify that users can successfully create an account by filling out the registration form with their username, email, and password.
 2. Login/Logout: Verify that users can successfully log in and out of their account to access the other features of the application.
@@ -79,6 +76,3 @@ There is no UML diagram yet.
 - M3: Book Generation feature is completed.
 - M4: Preview and Download features are completed.
 - M5: Share feature is completed.
-
-
-
