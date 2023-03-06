@@ -1,0 +1,2 @@
+- SQLite might be preventing multiple users from using the website
+- config.json can't be synced to github and must be manually sent

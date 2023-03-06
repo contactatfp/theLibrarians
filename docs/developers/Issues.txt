@@ -1,0 +1,4 @@
+- Flash announcement timing: 
+When the book is being created, the flash announcement should appear, not after the book is created.
+
+- Book generation in Azure not working
