@@ -25,7 +25,7 @@ Kevin:
 
 Dexter:
 -Build models.py 
--Update project instructions
+-Update project documentation
 -Updated registration/login
 -Azure Deployment Testing
 
