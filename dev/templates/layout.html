@@ -25,11 +25,20 @@
             <ul class="navbar-nav ml-auto">
                 <li class=nav-item><a class="nav-link active" href="{{ url_for('home') }}">Overview</a></li>
                 <li class=nav-item><a class="nav-link active" href="{{ url_for('about') }}">About</a></li>
-                <li class=nav-item><a class="nav-link active" href="{{ url_for('login') }}">Login</a></li>
-                <li class=nav-item><a class="nav-link active" href="{{ url_for('register') }}">Register</a></li>
+                {% if current_user.is_authenticated %}
+                    <li class=nav-item><a class="nav-link active" href="{{ url_for('logout') }}">Logout</a></li>
+                {% else %}
+                    <li class=nav-item><a class="nav-link active" href="{{ url_for('login') }}">Login</a></li>
+                    <li class=nav-item><a class="nav-link active" href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
+
 
             </ul>
-            <a class="btn btn-sm btn-secondary text-uppercase mt-3 mt-lg-0 ml-lg-4 d-block d-lg-inline-block" href='#' rel=noopener>Start Now</a>
+            {% if current_user.is_authenticated %}
+                <a class="btn btn-sm btn-secondary text-uppercase mt-3 mt-lg-0 ml-lg-4 d-block d-lg-inline-block" href="{{ url_for('form') }}" rel=noopener>Start Now</a>
+            {% else %}
+                <a class="btn btn-sm btn-secondary text-uppercase mt-3 mt-lg-0 ml-lg-4 d-block d-lg-inline-block" href="{{ url_for('register') }}" rel=noopener>Start Now</a>
+            {% endif %}
         </div>
     </div>
 </header>
