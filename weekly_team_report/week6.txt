@@ -1,0 +1,48 @@
+The Librarians:
+-Dexter Estrada (Lead)
+-Kyle Louderback
+-Nicholas Semaan
+-Kevin Ngo
+
+Project:
+Quick Story
+
+GitHub Repository:
+https://github.com/contactatfp/theLibrarians.git
+
+Job Assignments:
+Kyle:
+-Solved the issue with Azure Deployment
+-Created web.config file for flask configurations on Azure 
+-App now on Azure and public facing
+https://flask-ebook.azurewebsites.net/
+-Azure Deployment Testing
+
+Kevin:
+-Build form.py
+-Updated config.json for API key
+-Azure Deployment Testing
+
+Dexter:
+-Build models.py 
+-Update project documentation
+-Updated registration/login
+-Azure Deployment Testing
+
+Nicolas:
+-Continue building index.html, about.html, layout.html, form.html, register.html, login.html
+-updated instructions.txt for config.json
+-Azure Deployment Testing
+
+Milestones:
+M2: Registration, Login/Logout, About, and Form features - March 5
+M3: Book Generation feature - March 19
+M4: Preview and Download features - March 30
+M5: Share feature - April 10
+
+Technology:
+-Flask Framework
+-SQLite
+-Bootstrap/HTML
+-CSS
+-JavaScript

@@ -7,7 +7,7 @@ Installation
 
 4. Activate the virtual environment by navigating to the dev directory and running the command 'source venv/bin/activate' (for Linux or Mac) or 'venv\Scripts\activate' (for Windows)
 
-5. A file will be provided to you 'config.json' that will be in the same directory as app.py. This will provide you access to the API key needed to generate the book and images.
+5. Email Kyle.Louderback@sjsu.edu for a file 'config.json' that will be placed in the dev directory. This will provide you access to the API key needed to generate the book and images.
 
 6. In the same directory, start the database server by running the command 'flask run'
 
