@@ -7,12 +7,12 @@
                     <div class="col-lg-7 pt-12 pt-lg-0 pr-5" data-aos=fade-right data-aos-delay=100>
                         <h1 class="display-3 pt-8">A Child's Story<br><span class=font-weight-lighter>created</span></h1>
                         <p class=mb-6>Create your child's story with a few simple words. Bedtime reading has never before been tailored to your imagination</p>
-                        <a href="{{ url_for('form') }}" data-scroll class="btn btn-secondary text-uppercase d-inline-flex align-items-center">
+                        {% if current_user %}
+                            <a href="{{ url_for('form') }}" data-scroll class="btn btn-secondary text-uppercase d-inline-flex align-items-center">
+                        {% else %}
+                            <a href="{{ url_for('home') }}" data-scroll class="btn btn-secondary text-uppercase d-inline-flex align-items-center">
+                        {% endif %}
                             Create E-Book
-                            {#                        <svg width=16 height=16 class=ml-2 xmlns=http://www.w3.org/2000/svg viewBox="0 0 24 24">#}
-                            {#                           <title>arrow-right-1</title>#}
-                            {#                           <path d=M19.5,12a2.3,2.3,0,0,1-.78,1.729L7.568,23.54a1.847,1.847,0,0,1-2.439-2.773l9.752-8.579a.25.25,0,0,0,0-.376L5.129,3.233A1.847,1.847,0,0,1,7.568.46l11.148,9.808A2.31,2.31,0,0,1,19.5,12Z></path>#}
-                            {#                        </svg>#}
                         </a>
                         <h2 class="h4 mt-11 text-gray font-weight-normal">Join thousands of businesses who trust in us</h2>
                         <div class="row align-items-center">

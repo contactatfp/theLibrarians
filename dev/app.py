@@ -18,6 +18,7 @@ bcrypt = Bcrypt(app)
 
 login_manager = LoginManager(app)
 app.app_context().push()
+
 # openai.api_key = os.getenv("OPENAI_API_KEY")
 
 with open('config.json') as f:
@@ -66,6 +67,9 @@ class Book(db.Model):
         return f"Book('{self.content}')"
 
 
+db.create_all()
+
+
 @app.route('/')
 def home():  # put application's code here
     return render_template('index.html')
@@ -80,7 +84,8 @@ def register():
         db.session.add(user)
         db.session.commit()
         flash(f'Account created for {form.username.data}!', 'success')
-        return redirect(url_for('home'))
+        login_user(user)
+        return redirect(url_for('form'))
     return render_template('register.html', title='Register', form=form)
 
 
@@ -93,7 +98,7 @@ def login():
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
             flash('You have been logged in!', 'success')
-            return redirect(next_page) if next_page else redirect(url_for('home'))
+            return redirect(next_page) if next_page else redirect(url_for('form'))
         else:
             flash('Login Unsuccessful. Please check username and password', 'danger')
     return render_template('login.html', title='Login', form=form)
@@ -129,9 +134,10 @@ def form():
     if form.validate_on_submit():
         post = Post(title=form.title.data, content=form.content.data, age=form.age.data, author=user,
                     child_name=form.child_name.data)
+        # book = form.content.data
+        book = 'Create a childrens story about ' + form.child_name.data + ' who is ' + str(
+            form.age.data) + ' years old. The story should be about ' + form.title.data + '. ' + form.content.data
 
-        # openai.api_key = os.getenv("OPEN_API_KEY")
-        book = form.content.data
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt=book,
@@ -166,4 +172,3 @@ def all():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
-

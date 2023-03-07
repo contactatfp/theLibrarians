@@ -3,10 +3,11 @@
 <div class="container">
     <div class="py-5">
     <div class="content-section">
+        <h1 class="display-4">Let's Create A Book</h1><br>
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">New Book</legend>
+
                 <div class="form-group">
                     {{ form.child_name.label(class="form-control-label") }}
                     {{ form.child_name(class="form-control form-control-lg") }}
