@@ -52,6 +52,7 @@ class Post(db.Model):
     age = db.Column(db.Integer, nullable=False)
     date_posted = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
+    image = (db.Column(db.Text, nullable=False)) #Currently set to a url to an image
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
@@ -61,6 +62,7 @@ class Post(db.Model):
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
+    image = (db.Column(db.Text, nullable=False)) #Currently set to a url to an image
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
@@ -145,7 +147,8 @@ def form():
             max_tokens=300,
         )
         image_url = get_image(book)
-        userBook = Book(content=response.choices[0].text, author=user)
+        post.image = image_url
+        userBook = Book(content=response.choices[0].text, image=image_url, author=user)
         db.session.add(post)
         db.session.add(userBook)
         db.session.commit()
