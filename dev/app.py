@@ -52,7 +52,7 @@ class Post(db.Model):
     age = db.Column(db.Integer, nullable=False)
     date_posted = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
-    image = (db.Column(db.Text, nullable=False)) #Currently set to a url to an image
+    image = (db.Column(db.Text, nullable=True)) #Currently set to a url to an image
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
@@ -62,7 +62,7 @@ class Post(db.Model):
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
-    image = (db.Column(db.Text, nullable=False)) #Currently set to a url to an image
+    image = (db.Column(db.Text, nullable=True)) #Currently set to a url to an image
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
