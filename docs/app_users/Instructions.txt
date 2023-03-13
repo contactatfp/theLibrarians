@@ -1,0 +1,4 @@
+1. Navigate to https://flask-ebook.azurewebsites.net/
+2. Create an account
+3. Enter in prompt
+4. Generate your story book

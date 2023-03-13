@@ -20,3 +20,4 @@ venv
 .env
 
 dev/instance/site.db
+dev/config.json
