@@ -12,7 +12,8 @@ from forms import RegistrationForm, LoginForm, PostForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '579162jfkdlsasnfnjs2el42dkjd'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+app.config[
+    'SQLALCHEMY_DATABASE_URI'] = 'postgresql://librarians:Postgres1@librarians.postgres.database.azure.com/postgres?sslmode=require'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
@@ -25,6 +26,9 @@ with open('config.json') as f:
     config = json.load(f)
 
 openai.api_key = config['api_secret']
+
+
+# ... (rest of the code remains unchanged)
 
 
 @login_manager.user_loader
@@ -43,6 +47,9 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
+
+
+
 
 
 class Post(db.Model):
@@ -68,6 +75,7 @@ class Book(db.Model):
 
 
 db.create_all()
+
 
 
 @app.route('/')
@@ -125,8 +133,8 @@ def get_image(prompt):
 
 
 @app.route('/form', methods=['GET', 'POST'])
+@login_required
 def form():
-    login_required(current_user)
     if not current_user.is_authenticated:
         return redirect(url_for('home'))
     form = PostForm()
