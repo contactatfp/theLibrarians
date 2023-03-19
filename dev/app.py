@@ -12,8 +12,7 @@ from forms import RegistrationForm, LoginForm, PostForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '579162jfkdlsasnfnjs2el42dkjd'
-app.config[
-    'SQLALCHEMY_DATABASE_URI'] = 'postgresql://librarians:Postgres1@librarians.postgres.database.azure.com/postgres?sslmode=require'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://librarians:Postgres1@librarians.postgres.database.azure.com/postgres?sslmode=require'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 
@@ -27,8 +26,6 @@ with open('config.json') as f:
 
 openai.api_key = config['api_secret']
 
-
-# ... (rest of the code remains unchanged)
 
 
 @login_manager.user_loader
