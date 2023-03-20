@@ -11,9 +11,7 @@ Installation
 
 6. In the same directory, start the database server by running the command 'flask run'
 
-7. In your web browser, naviage to http://localhost:5000/initdb to initiallize the database. You should see a message indicating that the database has been initialized.
-
-8. You are now ready to use the Flask app. In your web browser, navigate to http://localhost:5000 to view the home page. From there, you can navigate to the other pages of the app, create an account, and generate a children's book based on your input.
+7. You are now ready to use the Flask app. In your web browser, navigate to http://localhost:5000 to view the home page. From there, you can navigate to the other pages of the app, create an account, and generate a children's book based on your input.
 
 --------------------------------------------------------------------------------------------------------
 Running the Project
