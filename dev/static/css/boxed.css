@@ -1,0 +1,18 @@
+.container{
+	position: relative;
+	width: 1200px;
+	height: 300px;
+	margin: 240px auto;
+}
+
+.container .box{
+	position:relative;
+	width: calc(400px - 30px);
+	height: calc(300px - 30px);
+	float: left;
+	margin: 15px;
+	box-sizing: border-box;
+	overflow: hidden;
+	border-radius: 10px;
+	background: #FFFACD;
+}

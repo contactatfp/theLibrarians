@@ -171,6 +171,11 @@ def initdb():
     db.create_all()
     return 'Initialized the database'
 
+@app.route('/all')
+def all():
+    now = datetime.datetime.utcnow()
+    latest = Post.query.filter(Post.date_posted <= now).limit(10).all()
+    return render_template('all.html', title="Browse All", posts=latest)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
