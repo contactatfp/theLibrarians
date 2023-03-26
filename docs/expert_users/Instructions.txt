@@ -18,9 +18,11 @@ Running the Project
 
 1. Activate the virtual environment by navigating to the dev directory and running the command 'source venv/bin/activate' (for Linux or Mac) or 'venv\Scripts\activate' (for Windows)
 
-2. In the same directory, start the database server by running the command 'flask run'
+2. Update the required dependencies by navigating to the dev directory and runnning the command 'pip install -r requirements.txt'
 
-3. You are now ready to use the Flask app. In your web browser, navigate to http://localhost:5000 to view the home page.
+3. In the same directory, start the database server by running the command 'flask run'
+
+4. You are now ready to use the Flask app. In your web browser, navigate to http://localhost:5000 to view the home page.
 
 --------------------------------------------------------------------------------------------------------
 Verifying the progress
