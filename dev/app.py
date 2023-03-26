@@ -1,20 +1,31 @@
 import os, openai, datetime, requests, io
 from PIL import Image
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_bcrypt import Bcrypt
 from fpdf import FPDF
 from werkzeug.utils import send_file
 import json
+from io import BytesIO
+from flask_caching import Cache
 
 from forms import RegistrationForm, LoginForm, PostForm
+
+cache = Cache()
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '579162jfkdlsasnfnjs2el42dkjd'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://librarians:Postgres1@librarians.postgres.database.azure.com/postgres?sslmode=require'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+app.config['CACHE_TYPE'] = 'SimpleCache'
+cache.init_app(app)
+
+app.config['SQLALCHEMY_POOL_SIZE'] = 15
+app.config['SQLALCHEMY_MAX_OVERFLOW'] = 5
+app.config['SQLALCHEMY_POOL_RECYCLE'] = 360
 
 login_manager = LoginManager(app)
 app.app_context().push()
@@ -25,7 +36,6 @@ with open('config.json') as f:
     config = json.load(f)
 
 openai.api_key = config['api_secret']
-
 
 
 @login_manager.user_loader
@@ -44,9 +54,6 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
-
-
-
 
 
 class Post(db.Model):
@@ -74,7 +81,6 @@ class Book(db.Model):
 db.create_all()
 
 
-
 @app.route('/')
 def home():  # put application's code here
     return render_template('index.html')
@@ -92,6 +98,43 @@ def register():
         login_user(user)
         return redirect(url_for('form'))
     return render_template('register.html', title='Register', form=form)
+
+
+def generate_pdf(post, book, image_url):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=24)
+
+    # Save image to a buffer
+    response = requests.get(image_url)
+    image_data = io.BytesIO(response.content)
+
+    # Open the image with PIL, convert to JPEG, and save to a new buffer
+    image = Image.open(image_data)
+    image_rgb = image.convert("RGB")
+    image_buffer = io.BytesIO()
+    image_rgb.save(image_buffer, format="JPEG")
+    image_buffer.seek(0)
+
+    # Save the converted image to a temporary file
+    temp_image_name = "temp_image_{}.jpg".format(current_user.id)
+    with open(temp_image_name, "wb") as temp_image_file:
+        temp_image_file.write(image_buffer.read())
+
+    # Add the image to the PDF
+    pdf.image(temp_image_name, x=20, y=30, w=170, h=170)
+    pdf.set_font("Arial", size=12)
+    pdf.set_xy(10, 210)
+    pdf.multi_cell(0, 10, book.content)
+
+    # Remove the temporary image file
+    os.remove(temp_image_name)
+
+    # Add text and format the PDF
+    # (The rest of your original generate_pdf function)
+
+    return pdf.output(dest="S").encode("latin1")
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -116,7 +159,11 @@ def about():  # put application's code here
 
 @app.route('/book')
 def book():  # put application's code here
-    return render_template('book.html')
+    userBook_content = request.args.get('book_content')
+    image_url = request.args.get('image_url')
+    post_title = request.args.get('post_title')
+    pdf_key = request.args.get('pdf_key')
+    return render_template('book.html', book_content=userBook_content, image_url=image_url, post_title=post_title, pdf_key=pdf_key)
 
 
 def get_image(prompt):
@@ -156,8 +203,26 @@ def form():
         db.session.commit()
         flash('Your book is being created!', 'success')
         # return redirect(url_for('book', book=userBook.content))
-        return render_template('book.html', book=userBook, image_url=image_url, post=post)
+        pdf_buffer = generate_pdf(post, userBook, image_url)
+        pdf_key = f'pdf_buffer_{current_user.id}'  # Create a unique key for the user
+        cache.set(pdf_key, pdf_buffer, timeout=300)  # Store the PDF buffer in the cache for 5 minutes
+
+        return redirect(url_for('book', book_content=userBook.content, image_url=image_url, post_title=post.title, pdf_key=pdf_key))
+
     return render_template('form.html', title='New Post', form=form)
+
+
+@app.route('/download_pdf/<pdf_key>')
+@login_required
+def download_pdf(pdf_key):
+    # pdf_buffer = session.get('pdf_buffer')
+    pdf_buffer = cache.get(pdf_key)
+    if pdf_buffer:
+        return send_file(BytesIO(pdf_buffer), request.environ, mimetype='application/pdf', as_attachment=True, download_name='book.pdf')
+    else:
+        flash('There was an error generating the PDF. Please try again.', 'danger')
+        return redirect(url_for('form'))
+
 
 
 @app.route('/logout')
@@ -171,11 +236,13 @@ def initdb():
     db.create_all()
     return 'Initialized the database'
 
+
 @app.route('/all')
 def all():
     now = datetime.datetime.utcnow()
     latest = Post.query.filter(Post.date_posted <= now).limit(10).all()
     return render_template('all.html', title="Browse All", posts=latest)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
