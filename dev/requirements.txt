@@ -4,6 +4,8 @@ async-generator==1.10
 async-timeout==4.0.2
 attrs==22.2.0
 bcrypt==4.0.1
+blinker==1.5
+cachelib==0.9.0
 certifi==2022.12.7
 charset-normalizer==2.1.1
 click==8.1.3
@@ -12,13 +14,17 @@ email-validator==1.3.1
 exceptiongroup==1.1.0
 Flask==2.2.2
 Flask-Bcrypt==1.0.1
+Flask-Caching==2.0.2
 Flask-Executor==1.0.0
 Flask-Login==0.6.2
+Flask-Session==0.4.0
+Flask-Sessions==0.1.5
 Flask-SQLAlchemy==3.0.2
 Flask-Testing==0.8.1
 Flask-WTF==1.1.1
 fpdf==1.7.2
 frozenlist==1.3.3
+gunicorn==20.0.4
 h11==0.14.0
 idna==3.4
 importlib-metadata==6.0.0
@@ -34,6 +40,7 @@ psycopg2-binary==2.9.5
 PySocks==1.7.1
 requests==2.28.2
 selenium==4.8.2
+signals==0.0.2
 sniffio==1.3.0
 sortedcontainers==2.4.0
 SQLAlchemy==1.4.46
