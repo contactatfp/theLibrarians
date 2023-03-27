@@ -1,4 +1,4 @@
-import os, openai, datetime, requests, io
+import os, openai, datetime, requests, io, sys
 from PIL import Image
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
@@ -116,7 +116,14 @@ def about():  # put application's code here
 
 @app.route('/book')
 def book():  # put application's code here
-    return render_template('book.html')
+    print(request.args['read'], file=sys.stderr)
+    id = request.args['read']
+    if not id:
+        abort(404)
+    post = Post.query.filter(Post.id==id).first()
+    book = Book.query.filter(Book.id==id).first()
+    
+    return render_template('book.html', book=book, post=post)
 
 
 def get_image(prompt):
@@ -171,11 +178,23 @@ def initdb():
     db.create_all()
     return 'Initialized the database'
 
-@app.route('/all')
-def all():
+@app.route('/browse', methods=['GET'])
+def browse():
     now = datetime.datetime.utcnow()
-    latest = Post.query.filter(Post.date_posted <= now).limit(10).all()
-    return render_template('all.html', title="Browse All", posts=latest)
+    latest = Post.query.filter(Post.date_posted <= now).order_by(Post.date_posted.desc()).limit(10).all()
+
+    if "read" in request.form:
+        print("READ", file=sys.stderr)
+        print(request.form.get('read'), file=sys.stderr)
+        # book = Book.query.filter(Book.id == request.form['read']).first()
+        # post = Post.query.filter(Post.id == request.form['read'])
+        pass
+        # return render_template('book.html', book=book, post=post)
+    print("NO READ", file=sys.stderr)
+    print(request.form.get('read'), file=sys.stderr)
+    for field in request.form:
+        print(field, file=sys.stderr)
+    return render_template('browse.html', title="Browse Books", posts=latest)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
