@@ -169,9 +169,12 @@ def book():  # put application's code here
         post_title = post.title
         userBook_content = userBook.content
         
-        pdf_buffer = generate_pdf(post, userBook, image_url)
-        pdf_key = f'pdf_buffer_{current_user.id}'  # Create a unique key for the user
-        cache.set(pdf_key, pdf_buffer, timeout=300)  # Store the PDF buffer in the cache for 5 minutes
+        if current_user.is_authenticated:
+            pdf_buffer = generate_pdf(post, userBook, image_url)
+            pdf_key = f'pdf_buffer_{current_user.id}'  # Create a unique key for the user
+            cache.set(pdf_key, pdf_buffer, timeout=300)  # Store the PDF buffer in the cache for 5 minutes
+        else:
+            pdf_key = None;
 #        return render_template('book.html', book_content=book.content, post_title=post.title)
     else:
         userBook_content = request.args.get('book_content')
