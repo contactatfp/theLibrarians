@@ -14,10 +14,10 @@ from forms import RegistrationForm, LoginForm, PostForm
 
 cache = Cache()
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '579162jfkdlsasnfnjs2el42dkjd'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://librarians:Postgres1@librarians.postgres.database.azure.com/postgres?sslmode=require'
+app.config[
+    'SQLALCHEMY_DATABASE_URI'] = 'postgresql://librarians:Postgres1@librarians.postgres.database.azure.com/postgres?sslmode=require'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 app.config['CACHE_TYPE'] = 'SimpleCache'
@@ -137,7 +137,6 @@ def generate_pdf(post, book, image_url):
     return pdf.output(dest="S").encode("latin1")
 
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -160,29 +159,30 @@ def about():  # put application's code here
 
 @app.route('/book')
 def book():  # put application's code here
-#    print(request.args['read'], file=sys.stderr)
+    #    print(request.args['read'], file=sys.stderr)
     if 'read' in request.args:
         id = request.args['read']
-        post = Post.query.filter(Post.id==id).first()
-        userBook = Book.query.filter(Book.id==id).first()
+        post = Post.query.filter(Post.id == id).first()
+        userBook = Book.query.filter(Book.id == id).first()
         image_url = None
         post_title = post.title
         userBook_content = userBook.content
-        
+
         if current_user.is_authenticated:
             pdf_buffer = generate_pdf(post, userBook, image_url)
             pdf_key = f'pdf_buffer_{current_user.id}'  # Create a unique key for the user
             cache.set(pdf_key, pdf_buffer, timeout=300)  # Store the PDF buffer in the cache for 5 minutes
         else:
             pdf_key = None;
-#        return render_template('book.html', book_content=book.content, post_title=post.title)
+    #        return render_template('book.html', book_content=book.content, post_title=post.title)
     else:
         userBook_content = request.args.get('book_content')
         image_url = request.args.get('image_url')
         post_title = request.args.get('post_title')
         pdf_key = request.args.get('pdf_key')
-        
-    return render_template('book.html', book_content=userBook_content, image_url=image_url, post_title=post_title, pdf_key=pdf_key)
+
+    return render_template('book.html', book_content=userBook_content, image_url=image_url, post_title=post_title,
+                           pdf_key=pdf_key)
 
 
 def get_image(prompt):
@@ -206,14 +206,14 @@ def form():
         post = Post(title=form.title.data, content=form.content.data, age=form.age.data, author=user,
                     child_name=form.child_name.data)
         # book = form.content.data
-        book = 'Create a childrens story about ' + form.child_name.data + ' who is ' + str(
+        book = 'Limit response to 200 words max. Create a childrens story about ' + form.child_name.data + ' who is ' + str(
             form.age.data) + ' years old. The story should be about ' + form.title.data + '. ' + form.content.data
 
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt=book,
             temperature=0.6,
-            max_tokens=300,
+            max_tokens=470,
         )
         image_url = get_image(book)
         userBook = Book(content=response.choices[0].text, author=user)
@@ -226,7 +226,8 @@ def form():
         pdf_key = f'pdf_buffer_{current_user.id}'  # Create a unique key for the user
         cache.set(pdf_key, pdf_buffer, timeout=300)  # Store the PDF buffer in the cache for 5 minutes
 
-        return redirect(url_for('book', book_content=userBook.content, image_url=image_url, post_title=post.title, pdf_key=pdf_key))
+        return redirect(
+            url_for('book', book_content=userBook.content, image_url=image_url, post_title=post.title, pdf_key=pdf_key))
 
     return render_template('form.html', title='New Post', form=form)
 
@@ -237,11 +238,11 @@ def download_pdf(pdf_key):
     # pdf_buffer = session.get('pdf_buffer')
     pdf_buffer = cache.get(pdf_key)
     if pdf_buffer:
-        return send_file(BytesIO(pdf_buffer), request.environ, mimetype='application/pdf', as_attachment=True, download_name='book.pdf')
+        return send_file(BytesIO(pdf_buffer), request.environ, mimetype='application/pdf', as_attachment=True,
+                         download_name='book.pdf')
     else:
         flash('There was an error generating the PDF. Please try again.', 'danger')
         return redirect(url_for('form'))
-
 
 
 @app.route('/logout')
@@ -254,6 +255,7 @@ def logout():
 def initdb():
     db.create_all()
     return 'Initialized the database'
+
 
 @app.route('/browse', methods=['GET'])
 def browse():
