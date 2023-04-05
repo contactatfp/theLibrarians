@@ -1,4 +1,4 @@
-import os, openai, datetime, requests, io
+import os, openai, datetime, requests, io, sys
 from PIL import Image
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
@@ -105,32 +105,33 @@ def generate_pdf(post, book, image_url):
     pdf.add_page()
     pdf.set_font("Arial", size=24)
 
-    # Save image to a buffer
-    response = requests.get(image_url)
-    image_data = io.BytesIO(response.content)
+    if image_url:
+        # Save image to a buffer
+        response = requests.get(image_url)
+        image_data = io.BytesIO(response.content)
 
-    # Open the image with PIL, convert to JPEG, and save to a new buffer
-    image = Image.open(image_data)
-    image_rgb = image.convert("RGB")
-    image_buffer = io.BytesIO()
-    image_rgb.save(image_buffer, format="JPEG")
-    image_buffer.seek(0)
+        # Open the image with PIL, convert to JPEG, and save to a new buffer
+        image = Image.open(image_data)
+        image_rgb = image.convert("RGB")
+        image_buffer = io.BytesIO()
+        image_rgb.save(image_buffer, format="JPEG")
+        image_buffer.seek(0)
 
-    # Save the converted image to a temporary file
-    temp_image_name = "temp_image_{}.jpg".format(current_user.id)
-    with open(temp_image_name, "wb") as temp_image_file:
-        temp_image_file.write(image_buffer.read())
+        # Save the converted image to a temporary file
+        temp_image_name = "temp_image_{}.jpg".format(current_user.id)
+        with open(temp_image_name, "wb") as temp_image_file:
+            temp_image_file.write(image_buffer.read())
 
-    # Add the image to the PDF
-    pdf.image(temp_image_name, x=20, y=30, w=170, h=170)
+        # Add the image to the PDF
+        pdf.image(temp_image_name, x=20, y=30, w=170, h=170)
+
+        # Remove the temporary image file
+        os.remove(temp_image_name)
+
+    # Add text and format the PDF
     pdf.set_font("Arial", size=12)
     pdf.set_xy(10, 210)
     pdf.multi_cell(0, 10, book.content)
-
-    # Remove the temporary image file
-    os.remove(temp_image_name)
-
-    # Add text and format the PDF
     # (The rest of your original generate_pdf function)
 
     return pdf.output(dest="S").encode("latin1")
@@ -159,10 +160,28 @@ def about():  # put application's code here
 
 @app.route('/book')
 def book():  # put application's code here
-    userBook_content = request.args.get('book_content')
-    image_url = request.args.get('image_url')
-    post_title = request.args.get('post_title')
-    pdf_key = request.args.get('pdf_key')
+#    print(request.args['read'], file=sys.stderr)
+    if 'read' in request.args:
+        id = request.args['read']
+        post = Post.query.filter(Post.id==id).first()
+        userBook = Book.query.filter(Book.id==id).first()
+        image_url = None
+        post_title = post.title
+        userBook_content = userBook.content
+        
+        if current_user.is_authenticated:
+            pdf_buffer = generate_pdf(post, userBook, image_url)
+            pdf_key = f'pdf_buffer_{current_user.id}'  # Create a unique key for the user
+            cache.set(pdf_key, pdf_buffer, timeout=300)  # Store the PDF buffer in the cache for 5 minutes
+        else:
+            pdf_key = None;
+#        return render_template('book.html', book_content=book.content, post_title=post.title)
+    else:
+        userBook_content = request.args.get('book_content')
+        image_url = request.args.get('image_url')
+        post_title = request.args.get('post_title')
+        pdf_key = request.args.get('pdf_key')
+        
     return render_template('book.html', book_content=userBook_content, image_url=image_url, post_title=post_title, pdf_key=pdf_key)
 
 
@@ -236,12 +255,23 @@ def initdb():
     db.create_all()
     return 'Initialized the database'
 
-
-@app.route('/all')
-def all():
+@app.route('/browse', methods=['GET'])
+def browse():
     now = datetime.datetime.utcnow()
-    latest = Post.query.filter(Post.date_posted <= now).limit(10).all()
-    return render_template('all.html', title="Browse All", posts=latest)
+    latest = Post.query.filter(Post.date_posted <= now).order_by(Post.date_posted.desc()).limit(10).all()
+
+    if "read" in request.form:
+        print("READ", file=sys.stderr)
+        print(request.form.get('read'), file=sys.stderr)
+        # book = Book.query.filter(Book.id == request.form['read']).first()
+        # post = Post.query.filter(Post.id == request.form['read'])
+        pass
+        # return render_template('book.html', book=book, post=post)
+    print("NO READ", file=sys.stderr)
+    print(request.form.get('read'), file=sys.stderr)
+    for field in request.form:
+        print(field, file=sys.stderr)
+    return render_template('browse.html', title="Browse Books", posts=latest)
 
 
 if __name__ == '__main__':
