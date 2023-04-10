@@ -1,0 +1,47 @@
+The Librarians:
+-Dexter Estrada
+-Kyle Louderback
+-Nicholas Semaan (lead)
+-Kevin Ngo 
+
+Task/Milestones Completed:
+- adjustments made to book generation api to ensure book is not cutoff at preset limit
+
+How to Test Completed Features:
+1. get the website up and running (instructions in instructions.txt)
+*if you already have an account skip steps 2-4
+2. navigate to the register page located towards the top right corner on the navigation bar
+3. fill out the required details for creating an account (self-explanatory when on the page)
+4. test if the account was created by logging out and logging back in (tests registration and login)
+5. login is located in the next to register button 
+6. after logging in navigate to the create a book page which is located on the home(browse) page
+7. fill out the required details for book creation (self-explanatory when on the page)
+8. after the book has been created double check that story is complete and not cutoff
+
+Project:
+Quick Story
+GitHub Repository:
+https://github.com/contactatfp/theLibrarians.git
+Job Assignments:
+Kyle:
+- adjusting book generation based on bugs
+Kevin:
+- adding pagination to the browse page (in progress)
+Dexter:
+- tested book generation with word cutoff
+- researched how to get better images based on prompts
+Nicholas:
+- worked on updating non-bootstrap frontend to use bootstrap (in progress)
+- team report
+
+Milestones:
+M2: Registration, Login/Logout, About, and Form features - March 5
+M3: Book Generation feature - March 19
+M4: Preview and Download features - March 30
+M5: Share feature - April 10
+Technology:
+-Flask Framework
+-SQLite --> Postgres
+-Bootstrap/HTML
+-CSS
+-JavaScript
