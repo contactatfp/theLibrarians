@@ -195,6 +195,10 @@ def get_image(prompt):
     return image_url
 
 
+def remove_non_latin1_characters(text):
+    return text.encode('latin1', errors='ignore').decode('latin1')
+
+
 @app.route('/form', methods=['GET', 'POST'])
 @login_required
 def form():
@@ -203,19 +207,23 @@ def form():
     form = PostForm()
     user = current_user
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, age=form.age.data, author=user,
-                    child_name=form.child_name.data)
-        # book = form.content.data
-        book = 'Limit response to 200 words max. Create a childrens story about ' + form.child_name.data + ' who is ' + str(
-            form.age.data) + ' years old. The story should be about ' + form.title.data + '. ' + form.content.data
+        sanitized_title = remove_non_latin1_characters(form.title.data)
+        sanitized_content = remove_non_latin1_characters(form.content.data)
+        sanitized_child_name = remove_non_latin1_characters(form.child_name.data)
 
+        post = Post(title=sanitized_title, content=sanitized_content, age=form.age.data, author=user,
+                    child_name=sanitized_child_name)
+        # book = form.content.data
+        book = 'Create a childrens story about ' + form.child_name.data + ' who is ' + str(
+            form.age.data) + ' years old. The story should be about ' + form.title.data + '. ' + form.content.data + 'Limit response to 200 words max.'
+        bookForImage = "Create a cartoonish image for a children's storybook cover that conveys a light and happy tone, and is suitable for children ages 1-7. The image should not contain any words. The storybook may contain different characters and settings, so the image should be general and not specific to any particular story. Please use your creativity to come up with a fun and engaging image that will appeal to young children centered around" + form.content.data
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt=book,
             temperature=0.6,
             max_tokens=470,
         )
-        image_url = get_image(book)
+        image_url = get_image('Art Style: In the style of Raymond Briggs: ' + bookForImage)
         userBook = Book(content=response.choices[0].text, author=user)
         db.session.add(post)
         db.session.add(userBook)
