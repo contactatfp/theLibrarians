@@ -267,21 +267,25 @@ def initdb():
 
 @app.route('/browse', methods=['GET'])
 def browse():
-    now = datetime.datetime.utcnow()
-    latest = Post.query.filter(Post.date_posted <= now).order_by(Post.date_posted.desc()).limit(10).all()
+   # now = datetime.datetime.utcnow()
+   # latest = Post.query.filter(Post.date_posted <= now).order_by(Post.date_posted.desc()).limit(10).all()
+    page = db.paginate( db.select(Post).order_by(Post.date_posted.desc()), per_page=12 )
 
-    if "read" in request.form:
-        print("READ", file=sys.stderr)
-        print(request.form.get('read'), file=sys.stderr)
-        # book = Book.query.filter(Book.id == request.form['read']).first()
-        # post = Post.query.filter(Post.id == request.form['read'])
-        pass
-        # return render_template('book.html', book=book, post=post)
-    print("NO READ", file=sys.stderr)
-    print(request.form.get('read'), file=sys.stderr)
-    for field in request.form:
-        print(field, file=sys.stderr)
-    return render_template('browse.html', title="Browse Books", posts=latest)
+    # if "read" in request.form:
+        # print("READ", file=sys.stderr)
+        # print(request.form.get('read'), file=sys.stderr)
+        # # book = Book.query.filter(Book.id == request.form['read']).first()
+        # # post = Post.query.filter(Post.id == request.form['read'])
+        # # pass
+        # # return render_template('book.html', book=book, post=post)
+    # elif "page" in request.form:
+        # print("PAGE", file=sys.stderr)
+    # print("NO READ", file=sys.stderr)
+    # print(request.form.get('read'), file=sys.stderr)
+    # for field in request.form:
+        # print(field, file=sys.stderr)
+    iter = page.iter_pages(left_edge=1, right_edge=1, left_current=2, right_current=2)
+    return render_template('browse.html', title="Browse Books", posts=page, iter=iter)
 
 
 if __name__ == '__main__':
