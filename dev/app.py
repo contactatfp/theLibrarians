@@ -9,6 +9,9 @@ from werkzeug.utils import send_file
 import json
 from io import BytesIO
 from flask_caching import Cache
+from flask import jsonify
+from urllib.parse import quote
+
 
 from forms import RegistrationForm, LoginForm, PostForm
 
@@ -98,6 +101,38 @@ def register():
         login_user(user)
         return redirect(url_for('form'))
     return render_template('register.html', title='Register', form=form)
+
+@app.route('/share', methods=['POST'])
+@login_required
+def share():
+    data = request.get_json()
+    post_title = data.get('post_title')
+    post_id = data.get('post_id')
+
+    url = quote(request.url_root + 'book?read=' + str(post_id), safe='')
+
+    share_data = {
+        'facebook': f'https://www.facebook.com/sharer/sharer.php?u={url}',
+        'twitter': f'https://twitter.com/intent/tweet?url={url}&text={quote(post_title)}',
+        'linkedin': f'https://www.linkedin.com/shareArticle?mini=true&url={url}&title={quote(post_title)}',
+    }
+    return jsonify(share_data)
+
+@app.route('/generate_pdf_download_link', methods=['POST'])
+@login_required
+def generate_pdf_download_link():
+    data = request.get_json()
+    post_id = data.get('post_id')
+    post = Post.query.filter(Post.id == post_id).first()
+    userBook = Book.query.filter(Book.id == post_id).first()
+    image_url = None
+
+    pdf_buffer = generate_pdf(post, userBook, image_url)
+    pdf_key = f'pdf_buffer_{current_user.id}'  # Create a unique key for the user
+    cache.set(pdf_key, pdf_buffer, timeout=300)  # Store the PDF buffer in the cache for 5 minutes
+
+    return jsonify({'pdf_key': pdf_key})
+
 
 
 def generate_pdf(post, book, image_url):
