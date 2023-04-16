@@ -1,2 +1,4 @@
 - SQLite might be preventing multiple users from using the website
 - config.json can't be synced to github and must be manually sent
+- Azure has a session issue or network issue where it will not allow multiple users to use the website at the same time
+- The share feature shares with Twitter, Facebook, and LinkedIn, but shares a link, not PDF yet
