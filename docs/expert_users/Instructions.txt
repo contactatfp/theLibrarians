@@ -6,7 +6,7 @@ Installation
 
 1. Clone the repository to your local machine using 'git clone https://github.com/contactatfp/theLibrarians.git'
 
-2. Create a virtual environment by navigating to the dev directory and running the command 'python3 -m venv venv'
+2. Create a virtual environment by navigating to the dev directory and running the command 'python3 -m venv venv' (for Linux or Mac) or 'python -m venv venv' (for Windows)
 
 3. Activate the virtual environment by navigating to the theLibrarians/dev directory and running the command 'source venv/bin/activate' (for Linux or Mac) or 'venv\Scripts\activate' (for Windows)
 
@@ -16,12 +16,12 @@ Installation
 
 6. In the same directory, start the database server by running the command 'python app.py'
 
-7. You are now ready to use the Flask app. In your web browser, navigate to http://127.0.0.1:80 or http://192.168.86.27:80
+7. You are now ready to use the Flask app. In your web browser, navigate to http://127.0.0.1:80
  to view the home page. From there, you can navigate to the other pages of the app, create an account, and generate a children's book based on your input.
 
 8. To deactivate the virtual environment, run the command 'deactivate'
 
-9. To delete the virtual environment, run the command 'rm -rf venv'
+9. To delete the virtual environment, run the command 'rm -rf venv' (for Linux or Mac) or 'rmdir /s venv' (for Windows)
 
 Verifying the progress
 
