@@ -9,15 +9,18 @@ from werkzeug.utils import send_file
 import json
 from io import BytesIO
 from flask_caching import Cache
+from flask import jsonify
+from urllib.parse import quote
+
 
 from forms import RegistrationForm, LoginForm, PostForm
 
 cache = Cache()
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '579162jfkdlsasnfnjs2el42dkjd'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://librarians:Postgres1@librarians.postgres.database.azure.com/postgres?sslmode=require'
+app.config[
+    'SQLALCHEMY_DATABASE_URI'] = 'postgresql://librarians:Postgres1@librarians.postgres.database.azure.com/postgres?sslmode=require'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 app.config['CACHE_TYPE'] = 'SimpleCache'
@@ -99,6 +102,38 @@ def register():
         return redirect(url_for('form'))
     return render_template('register.html', title='Register', form=form)
 
+@app.route('/share', methods=['POST'])
+@login_required
+def share():
+    data = request.get_json()
+    post_title = data.get('post_title')
+    post_id = data.get('post_id')
+
+    url = quote(request.url_root + 'book?read=' + str(post_id), safe='')
+
+    share_data = {
+        'facebook': f'https://www.facebook.com/sharer/sharer.php?u={url}',
+        'twitter': f'https://twitter.com/intent/tweet?url={url}&text={quote(post_title)}',
+        'linkedin': f'https://www.linkedin.com/shareArticle?mini=true&url={url}&title={quote(post_title)}',
+    }
+    return jsonify(share_data)
+
+@app.route('/generate_pdf_download_link', methods=['POST'])
+@login_required
+def generate_pdf_download_link():
+    data = request.get_json()
+    post_id = data.get('post_id')
+    post = Post.query.filter(Post.id == post_id).first()
+    userBook = Book.query.filter(Book.id == post_id).first()
+    image_url = None
+
+    pdf_buffer = generate_pdf(post, userBook, image_url)
+    pdf_key = f'pdf_buffer_{current_user.id}'  # Create a unique key for the user
+    cache.set(pdf_key, pdf_buffer, timeout=300)  # Store the PDF buffer in the cache for 5 minutes
+
+    return jsonify({'pdf_key': pdf_key})
+
+
 
 def generate_pdf(post, book, image_url):
     pdf = FPDF()
@@ -137,7 +172,6 @@ def generate_pdf(post, book, image_url):
     return pdf.output(dest="S").encode("latin1")
 
 
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -160,29 +194,30 @@ def about():  # put application's code here
 
 @app.route('/book')
 def book():  # put application's code here
-#    print(request.args['read'], file=sys.stderr)
+    #    print(request.args['read'], file=sys.stderr)
     if 'read' in request.args:
         id = request.args['read']
-        post = Post.query.filter(Post.id==id).first()
-        userBook = Book.query.filter(Book.id==id).first()
+        post = Post.query.filter(Post.id == id).first()
+        userBook = Book.query.filter(Book.id == id).first()
         image_url = None
         post_title = post.title
         userBook_content = userBook.content
-        
+
         if current_user.is_authenticated:
             pdf_buffer = generate_pdf(post, userBook, image_url)
             pdf_key = f'pdf_buffer_{current_user.id}'  # Create a unique key for the user
             cache.set(pdf_key, pdf_buffer, timeout=300)  # Store the PDF buffer in the cache for 5 minutes
         else:
             pdf_key = None;
-#        return render_template('book.html', book_content=book.content, post_title=post.title)
+    #        return render_template('book.html', book_content=book.content, post_title=post.title)
     else:
         userBook_content = request.args.get('book_content')
         image_url = request.args.get('image_url')
         post_title = request.args.get('post_title')
         pdf_key = request.args.get('pdf_key')
-        
-    return render_template('book.html', book_content=userBook_content, image_url=image_url, post_title=post_title, pdf_key=pdf_key)
+
+    return render_template('book.html', book_content=userBook_content, image_url=image_url, post_title=post_title,
+                           pdf_key=pdf_key)
 
 
 def get_image(prompt):
@@ -195,6 +230,10 @@ def get_image(prompt):
     return image_url
 
 
+def remove_non_latin1_characters(text):
+    return text.encode('latin1', errors='ignore').decode('latin1')
+
+
 @app.route('/form', methods=['GET', 'POST'])
 @login_required
 def form():
@@ -203,19 +242,23 @@ def form():
     form = PostForm()
     user = current_user
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, age=form.age.data, author=user,
-                    child_name=form.child_name.data)
+        sanitized_title = remove_non_latin1_characters(form.title.data)
+        sanitized_content = remove_non_latin1_characters(form.content.data)
+        sanitized_child_name = remove_non_latin1_characters(form.child_name.data)
+
+        post = Post(title=sanitized_title, content=sanitized_content, age=form.age.data, author=user,
+                    child_name=sanitized_child_name)
         # book = form.content.data
         book = 'Create a childrens story about ' + form.child_name.data + ' who is ' + str(
-            form.age.data) + ' years old. The story should be about ' + form.title.data + '. ' + form.content.data
-
+            form.age.data) + ' years old. The story should be about ' + form.title.data + '. ' + form.content.data + 'Limit response to 200 words max.'
+        bookForImage = "Create a cartoonish image for a children's storybook cover that conveys a light and happy tone, and is suitable for children ages 1-7. The image should not contain any words. The storybook may contain different characters and settings, so the image should be general and not specific to any particular story. Please use your creativity to come up with a fun and engaging image that will appeal to young children centered around" + form.content.data
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt=book,
             temperature=0.6,
-            max_tokens=300,
+            max_tokens=470,
         )
-        image_url = get_image(book)
+        image_url = get_image('Art Style: In the style of Raymond Briggs: ' + bookForImage)
         userBook = Book(content=response.choices[0].text, author=user)
         db.session.add(post)
         db.session.add(userBook)
@@ -226,7 +269,8 @@ def form():
         pdf_key = f'pdf_buffer_{current_user.id}'  # Create a unique key for the user
         cache.set(pdf_key, pdf_buffer, timeout=300)  # Store the PDF buffer in the cache for 5 minutes
 
-        return redirect(url_for('book', book_content=userBook.content, image_url=image_url, post_title=post.title, pdf_key=pdf_key))
+        return redirect(
+            url_for('book', book_content=userBook.content, image_url=image_url, post_title=post.title, pdf_key=pdf_key))
 
     return render_template('form.html', title='New Post', form=form)
 
@@ -237,11 +281,11 @@ def download_pdf(pdf_key):
     # pdf_buffer = session.get('pdf_buffer')
     pdf_buffer = cache.get(pdf_key)
     if pdf_buffer:
-        return send_file(BytesIO(pdf_buffer), request.environ, mimetype='application/pdf', as_attachment=True, download_name='book.pdf')
+        return send_file(BytesIO(pdf_buffer), request.environ, mimetype='application/pdf', as_attachment=True,
+                         download_name='book.pdf')
     else:
         flash('There was an error generating the PDF. Please try again.', 'danger')
         return redirect(url_for('form'))
-
 
 
 @app.route('/logout')
@@ -254,6 +298,7 @@ def logout():
 def initdb():
     db.create_all()
     return 'Initialized the database'
+
 
 @app.route('/browse', methods=['GET'])
 def browse():

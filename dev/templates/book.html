@@ -15,13 +15,44 @@
                 <p>{{ book_content }}</p>
                 {% if pdf_key %}
                     <a href="{{ url_for('download_pdf', pdf_key=pdf_key) }}" class="btn btn-primary mt-3">Download PDF</a>
-				{% else %}
-					<a href="{{ url_for('login') }}" class="btn btn-primary mt-3">You Must Be Logged In to Download This Book</a>
+                    <button id="share" class="btn btn-primary mt-3">Share</button>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn btn-primary mt-3">You Must Be Logged In to Download This Book</a>
                 {% endif %}
                 <br>
                 <br>
             </div>
         </div>
-
     </div>
+
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('share').addEventListener('click', function() {
+                var post_title = '{{ post_title }}';
+                var post_id = '{{ request.args.get("read") }}';
+
+                fetch("{{ url_for('share') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=UTF-8'
+                    },
+                    body: JSON.stringify({'post_title': post_title, 'post_id': post_id})
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        window.open(data.facebook, '_blank');
+                        window.open(data.twitter, '_blank');
+                        window.open(data.linkedin, '_blank');
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+        });
+    </script>
+
+
 {% endblock %}
