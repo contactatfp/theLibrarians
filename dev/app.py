@@ -11,6 +11,7 @@ from io import BytesIO
 from flask_caching import Cache
 from flask import jsonify
 from urllib.parse import quote
+from azure.storage.blob import BlobServiceClient
 
 
 from forms import RegistrationForm, LoginForm, PostForm
