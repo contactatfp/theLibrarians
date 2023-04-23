@@ -1,0 +1,69 @@
+The Librarians:
+-Dexter Estrada
+-Kyle Louderback (lead)
+-Nicholas Semaan
+-Kevin Ngo
+
+Task/Milestones Completed:
+- Partially implemented share feature for Twitter, Facebook, LinkedIn
+- Fixed Login Error
+- Improved prompts for Book Generation and Image Generation
+- Azure Hosting: https://flask-ebook3.azurewebsites.net/
+- Improved instructions.txt for expert users
+
+
+Blockers:
+- Azure Session Hosting Issue
+- Share feature only shares link, not file
+
+
+How to Test Completed Features:
+- get the website up and running (instructions in instructions.txt)
+- navigate to the register page located towards the top right corner on the navigation bar
+- fill out the required details for creating an account (self-explanatory when on the page)
+- test if the account was created by logging out and logging back in (tests registration and login)
+- login is located in the next to register button
+- after logging in navigate to the create a book page which is located on the home(browse) page (tests buttons on browse page)
+- fill out the required details for book creation (self-explanatory when on the page)
+- after the book has been created click the download book button and check if the book is downloaded to local device
+
+Project:
+Quick Story
+GitHub Repository:
+https://github.com/contactatfp/theLibrarians.git
+Job Assignments:
+Kyle:
+- moved from SQLite to Postgres
+- researching Azure deployments as well as selenium
+- added download book feature
+- add share feature
+- test plan
+Kevin:
+- the Post entries in db are now being used in the all page, close to linking up the buttons
+- start thinking of integrating search on this page (instead of just fetching the latest entries)
+- started prettying/editing instructions
+- got buttons working on the browse page
+- test plan
+Dexter:
+- revising schema
+- building test cases
+- testing and updating documents after switching to Postgres
+- researched storing images
+- test plan
+Nicholas:
+- building test cases
+- testing and updating documents after switching to Postgres
+- worked on presentation and report
+- test plan
+
+Milestones:
+M2: Registration, Login/Logout, About, and Form features - March 5
+M3: Book Generation feature - March 19
+M4: Preview and Download features - March 30
+M5: Share feature - April 10 - STILL WORKING
+Technology:
+-Flask Framework
+-SQLite --> Postgres
+-Bootstrap/HTML
+-CSS
+-JavaScript
