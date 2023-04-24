@@ -244,10 +244,9 @@ def remove_non_latin1_characters(text):
 
 
 @app.route('/form', methods=['GET', 'POST'])
-@login_required
 def form():
     if not current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('login'))
     form = PostForm()
     user = current_user
     if form.validate_on_submit():
