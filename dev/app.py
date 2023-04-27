@@ -18,8 +18,7 @@ cache = Cache()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '579162jfkdlsasnfnjs2el42dkjd'
-app.config[
-    'SQLALCHEMY_DATABASE_URI'] = 'postgresql://librarians:Postgres1@librarians.postgres.database.azure.com/postgres?sslmode=require'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 app.config['CACHE_TYPE'] = 'SimpleCache'
