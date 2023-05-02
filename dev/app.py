@@ -24,16 +24,6 @@ bcrypt = Bcrypt(app)
 app.config['CACHE_TYPE'] = 'SimpleCache'
 cache.init_app(app)
 
-# storage_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')   
-storage_str = ""    # Key for the storage resource
-container_name = "Quick_Story_Images" # Name of the container in Azure
-#blob_service_client = BlobServiceClient.from_connection_string(conn_str=storage_str) # create a blob service client to interact with the storage account
-#try:
-    #container_client = blob_service_client.get_container_client(container=container_name) # get container client to interact with the container in which images will be stored
-    #container_client.get_container_properties() # get properties of the container to force exception to be thrown if container does not exist
-#except Exception as e:
-    #container_client = blob_service_client.create_container(container_name) # create a container in the storage account if it does not exist
-
 app.config['SQLALCHEMY_POOL_SIZE'] = 15
 app.config['SQLALCHEMY_MAX_OVERFLOW'] = 5
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 360
@@ -47,6 +37,16 @@ with open('config.json') as f:
     config = json.load(f)
 
 openai.api_key = config['api_secret']
+
+# storage_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')   
+storage_str = config['image_connection_string']    # Key for the storage resource
+container_name = "quickstoryphotostorage" # Name of the container in Azure
+blob_service_client = BlobServiceClient.from_connection_string(conn_str=storage_str) # create a blob service client to interact with the storage account
+try:
+    container_client = blob_service_client.get_container_client(container=container_name) # get container client to interact with the container in which images will be stored
+    container_client.get_container_properties() # get properties of the container to force exception to be thrown if container does not exist
+except Exception as e:
+    container_client = blob_service_client.create_container(container_name) # create a container in the storage account if it does not exist
 
 
 @login_manager.user_loader
