@@ -74,6 +74,7 @@ class Post(db.Model):
     age = db.Column(db.Integer, nullable=False)
     date_posted = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
+    image = db.Column(db.Text, nullable=False)  # The url to the image
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
@@ -83,6 +84,7 @@ class Post(db.Model):
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
+    image = db.Column(db.Text, nullable=False)  # The url to the image
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
@@ -152,7 +154,7 @@ def generate_pdf(post, book, image_url):
         # Save image to a buffer
         response = requests.get(image_url)
         image_data = io.BytesIO(response.content)
-
+        
         # Open the image with PIL, convert to JPEG, and save to a new buffer
         image = Image.open(image_data)
         image_rgb = image.convert("RGB")
@@ -266,7 +268,31 @@ def form():
             max_tokens=470,
         )
         image_url = get_image('Art Style: In the style of Raymond Briggs: ' + bookForImage)
-        userBook = Book(content=response.choices[0].text, author=user)
+
+        # Save image to a buffer
+        image_response = requests.get(image_url)
+        image_data = io.BytesIO(image_response.content)
+        
+        # Open the image with PIL, convert to JPEG, and save to a new buffer
+        image = Image.open(image_data)
+        image_rgb = image.convert("RGB")
+        image_buffer = io.BytesIO()
+        image_rgb.save(image_buffer, format="JPEG")
+        image_buffer.seek(0)
+
+        # Save the converted image to a temporary file
+        temp_image_name = "{}.jpg".format(hash(image_url + book + bookForImage))
+        with open(temp_image_name, "wb") as temp_image_file:
+            temp_image_file.write(image_buffer.read())
+
+        # Uploading image to storage and getting new url
+        container_client.upload_blob(temp_image_name, temp_image_name)
+        blob_client = container_client.get_blob_client(temp_image_name)
+
+        # Remove the temporary image file
+        os.remove(temp_image_name)
+
+        userBook = Book(content=response.choices[0].text, author=user, image=blob_client.url)
         db.session.add(post)
         db.session.add(userBook)
         db.session.commit()
