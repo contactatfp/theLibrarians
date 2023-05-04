@@ -290,12 +290,13 @@ def form():
             container_client.upload_blob(data.name, data)
         #container_client.upload_blob(temp_image_name, temp_image_name)
         #blob_client = container_client.get_blob_client(temp_image_name)
-        newURL = "https://quickstoryphotostorage.blob.core.windows.net/quickstoryphotostorage/" + temp_image_name
+        new_url = "https://quickstoryphotostorage.blob.core.windows.net/quickstoryphotostorage/" + temp_image_name
 
         # Remove the temporary image file
         os.remove(temp_image_name)
 
-        userBook = Book(content=response.choices[0].text, author=user, image=newURL)
+        userBook = Book(content=response.choices[0].text, author=user, image=new_url)
+        post.image = new_url
         db.session.add(post)
         db.session.add(userBook)
         db.session.commit()
