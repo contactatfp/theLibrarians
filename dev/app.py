@@ -209,7 +209,7 @@ def book():  # put application's code here
         id = request.args['read']
         post = Post.query.filter(Post.id == id).first()
         userBook = Book.query.filter(Book.id == id).first()
-        image_url = None
+        image_url = post.image
         post_title = post.title
         userBook_content = userBook.content
 
