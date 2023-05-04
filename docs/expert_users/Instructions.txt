@@ -13,6 +13,9 @@ Installation
 4. Install the required dependencies by navigating to the dev directory and running the command 'pip3 install -r requirements.txt'
 
 5. Email kyle.Louderback@sjsu.edu for a file 'config.json' that will be placed in the theLibrarians/dev directory. This will provide you access to the API key needed to generate the book and images.
+Note: Any config.json older than May 4th 2023 will not work
+
+5a. Delete instance/site.db if it has been created before May 4th 2023
 
 6. In the same directory, start the database server by running the command 'python app.py'
 

@@ -24,16 +24,6 @@ bcrypt = Bcrypt(app)
 app.config['CACHE_TYPE'] = 'SimpleCache'
 cache.init_app(app)
 
-# storage_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')   
-storage_str = ""    # Key for the storage resource
-container_name = "Quick_Story_Images" # Name of the container in Azure
-#blob_service_client = BlobServiceClient.from_connection_string(conn_str=storage_str) # create a blob service client to interact with the storage account
-#try:
-    #container_client = blob_service_client.get_container_client(container=container_name) # get container client to interact with the container in which images will be stored
-    #container_client.get_container_properties() # get properties of the container to force exception to be thrown if container does not exist
-#except Exception as e:
-    #container_client = blob_service_client.create_container(container_name) # create a container in the storage account if it does not exist
-
 app.config['SQLALCHEMY_POOL_SIZE'] = 15
 app.config['SQLALCHEMY_MAX_OVERFLOW'] = 5
 app.config['SQLALCHEMY_POOL_RECYCLE'] = 360
@@ -47,6 +37,16 @@ with open('config.json') as f:
     config = json.load(f)
 
 openai.api_key = config['api_secret']
+
+# storage_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')   
+storage_str = config['image_connection_string']    # Key for the storage resource
+container_name = "quickstoryphotostorage" # Name of the container in Azure
+blob_service_client = BlobServiceClient.from_connection_string(conn_str=storage_str) # create a blob service client to interact with the storage account
+try:
+    container_client = blob_service_client.get_container_client(container=container_name) # get container client to interact with the container in which images will be stored
+    container_client.get_container_properties() # get properties of the container to force exception to be thrown if container does not exist
+except Exception as e:
+    container_client = blob_service_client.create_container(container_name) # create a container in the storage account if it does not exist
 
 
 @login_manager.user_loader
@@ -74,6 +74,7 @@ class Post(db.Model):
     age = db.Column(db.Integer, nullable=False)
     date_posted = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
+    image = db.Column(db.Text, nullable=False)  # The url to the image
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
@@ -83,6 +84,7 @@ class Post(db.Model):
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
+    image = db.Column(db.Text, nullable=False)  # The url to the image
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
@@ -152,7 +154,7 @@ def generate_pdf(post, book, image_url):
         # Save image to a buffer
         response = requests.get(image_url)
         image_data = io.BytesIO(response.content)
-
+        
         # Open the image with PIL, convert to JPEG, and save to a new buffer
         image = Image.open(image_data)
         image_rgb = image.convert("RGB")
@@ -207,7 +209,7 @@ def book():  # put application's code here
         id = request.args['read']
         post = Post.query.filter(Post.id == id).first()
         userBook = Book.query.filter(Book.id == id).first()
-        image_url = None
+        image_url = post.image
         post_title = post.title
         userBook_content = userBook.content
 
@@ -266,7 +268,35 @@ def form():
             max_tokens=470,
         )
         image_url = get_image('Art Style: In the style of Raymond Briggs: ' + bookForImage)
-        userBook = Book(content=response.choices[0].text, author=user)
+
+        # Save image to a buffer
+        image_response = requests.get(image_url)
+        image_data = io.BytesIO(image_response.content)
+        
+        # Open the image with PIL, convert to JPEG, and save to a new buffer
+        image = Image.open(image_data)
+        image_rgb = image.convert("RGB")
+        image_buffer = io.BytesIO()
+        image_rgb.save(image_buffer, format="JPEG")
+        image_buffer.seek(0)
+
+        # Save the converted image to a temporary file
+        temp_image_name = "{}.jpg".format(hash(image_url + book + bookForImage))
+        with open(temp_image_name, "wb") as temp_image_file:
+            temp_image_file.write(image_buffer.read())
+
+        # Uploading image to storage and getting new url
+        with open(temp_image_name, "rb") as data:
+            container_client.upload_blob(data.name, data)
+        #container_client.upload_blob(temp_image_name, temp_image_name)
+        #blob_client = container_client.get_blob_client(temp_image_name)
+        new_url = "https://quickstoryphotostorage.blob.core.windows.net/quickstoryphotostorage/" + temp_image_name
+
+        # Remove the temporary image file
+        os.remove(temp_image_name)
+
+        userBook = Book(content=response.choices[0].text, author=user, image=new_url)
+        post.image = new_url
         db.session.add(post)
         db.session.add(userBook)
         db.session.commit()
