@@ -32,8 +32,6 @@ app.config['SQLALCHEMY_POOL_RECYCLE'] = 360
 login_manager = LoginManager(app)
 app.app_context().push()
 
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-
 with open('config.json') as f:
     config = json.load(f)
 
