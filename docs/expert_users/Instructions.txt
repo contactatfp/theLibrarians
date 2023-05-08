@@ -6,13 +6,13 @@ Installation
 
 1. Clone the repository to your local machine using 'git clone https://github.com/contactatfp/theLibrarians.git'
 
-2. Create a virtual environment by navigating to the dev directory and running the command 'python3 -m venv venv' (for Linux or Mac) or 'python -m venv venv' (for Windows)
+2. Create a virtual environment by navigating to the 'theLibrarians/dev' directory and running the command 'python3 -m venv venv' (for Linux or Mac) or 'python -m venv venv' (for Windows)
 
-3. Activate the virtual environment by navigating to the theLibrarians/dev directory and running the command 'source venv/bin/activate' (for Linux or Mac) or 'venv\Scripts\activate' (for Windows)
+3. Activate the virtual environment by navigating to the 'theLibrarians/dev' directory and running the command 'source venv/bin/activate' (for Linux or Mac) or 'venv\Scripts\activate' (for Windows)
 
 4. Install the required dependencies by navigating to the dev directory and running the command 'pip3 install -r requirements.txt'
 
-5. Email kyle.Louderback@sjsu.edu for a file 'config.json' that will be placed in the theLibrarians/dev directory. This will provide you access to the API key needed to generate the book and images.
+5. Email kyle.Louderback@sjsu.edu for a file 'config.json' that will be placed in the 'theLibrarians/dev' directory. This will provide you access to the API key needed to generate the book and images.
 Note: Any config.json older than May 4th 2023 will not work
 
 5a. Delete instance/site.db if it has been created before May 4th 2023
@@ -29,3 +29,17 @@ Note: Any config.json older than May 4th 2023 will not work
 Verifying the progress
 
 Click on "Commits" to verify files that have been changed.
+
+FAQ/Troubleshooting
+
+1. I'm getting an error like "sqlite3.OperationalError: no such column: post.image"!
+Solution: Your database file is outdated and needs to be rebuilt. Close flask if it is running, then delete 'site.db' under theLibrarians\dev\instance.
+
+2. I'm getting an error that I'm missing a Python module!
+Solution: The required modules might have changed in the newest build. Try running pip to install the requirements again. While in the directory 'theLibrarians\dev\' run the command 'pip3 install -r requirements.txt'.
+
+3. I'm getting an error like "FileNotFoundError: [Errno 2] No such file or directory: 'config.json'"!
+Solution: You are missing our config file with private keys. Email kyle.Louderback@sjsu.edu for a file 'config.json' that will be placed in the 'theLibrarians/dev' directory.
+
+4. I have the 'config.json' file in the 'theLibrarians/dev' directory but I'm getting an error like "KeyError: 'image_connection_string'"!
+Solution: Your config file you have is outdated and will no longer work. Email kyle.Louderback@sjsu.edu for a new 'config.json' file that will be placed in the 'theLibrarians/dev' directory.
