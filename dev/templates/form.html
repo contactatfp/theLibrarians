@@ -1,9 +1,12 @@
 {% extends 'layout.html' %}
 {% block content %}
+<div class="jumbotron text-center">
+    <h1 class="display-4">Let's Create A Book</h1><br>
+</div>
 <div class="container">
     <div class="py-5">
     <div class="content-section">
-        <h1 class="display-4">Let's Create A Book</h1><br>
+        
         <form method="POST" action="">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
