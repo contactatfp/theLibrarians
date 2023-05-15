@@ -1,8 +1,13 @@
 {% extends 'layout.html' %}
 {% block content %}
-<h1>{{title}}</h1>
+
+<div class="jumbotron text-center">
+	<h1>{{title}}</h1>
+	<h4> Browsing {{ posts.total }} most recent posts </h4>
+</div>
+
 <!--	<div class="mx auto" style="width: 200px;"> -->
-<h4> Browsing {{ posts.total }} most recent posts </h4>
+
 
 
 	<div class="container">
@@ -16,7 +21,7 @@
 				</li>
 			{% elif i==posts.page %}
 				<li class="page-item">
-					<a class="page-link font-weight-bold text-dark" }}>{{i}}</a>
+					<a class="page-link font-weight-bold text-dark">{{i}}</a>
 				</li>
 			{% else %}
 				<li class="page-item">
@@ -28,8 +33,9 @@
 		</ul>
 		<div class="row row-cols-3 g-4">
 		{% for p in posts %}
-			<div class="col">
+			<div class="col d-flex align-items-stretch">
 				<div class="card h-100 src=".../100px180/" alt="Card image cap">
+					<img class="card-img-top" src="{{p.image}}" alt="Card image cap">
 					<form action="{{ url_for('book') }}" method="GET" role="form" class="form-horizontal">
 						<div class="card-body d-flex flex-column">
 						
